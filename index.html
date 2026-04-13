@@ -45,6 +45,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Barlow',sans-serif;background:var(--surf);color:var(--t1);min-height:100vh}
 
+/* HEADER */
 header{background:var(--dark);display:flex;align-items:stretch;position:sticky;top:0;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,.35)}
 .hbar{width:6px;background:linear-gradient(180deg,var(--teal),var(--lime));flex-shrink:0}
 .hcontent{display:flex;align-items:center;padding:12px 24px;gap:18px;flex:1;flex-wrap:wrap}
@@ -53,6 +54,7 @@ header{background:var(--dark);display:flex;align-items:stretch;position:sticky;t
 .hright{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .period-badge{background:rgba(0,188,221,.18);border:1px solid rgba(0,188,221,.35);color:var(--teal);padding:5px 12px;border-radius:20px;font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
 
+/* DATE FILTER PANEL */
 .filter-panel{background:var(--blue);padding:12px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;border-bottom:2px solid rgba(0,188,221,.2)}
 .filter-panel label{font-family:Barlow Condensed,sans-serif;font-size:.85rem;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.06em}
 .date-input{background:rgba(255,255,255,.1);border:1.5px solid rgba(0,188,221,.35);color:#fff;padding:7px 12px;border-radius:8px;font-family:'Barlow',sans-serif;font-size:.85rem;cursor:pointer}
@@ -67,11 +69,13 @@ header{background:var(--dark);display:flex;align-items:stretch;position:sticky;t
 .source-toggle select{background:rgba(255,255,255,.1);border:1px solid rgba(0,188,221,.3);color:#fff;padding:4px 8px;border-radius:6px;font-size:.75rem}
 .source-toggle select option{background:var(--blue);color:#fff}
 
+/* TABS */
 .tabs{background:var(--dark);display:flex;padding:0 24px;gap:0;border-bottom:1px solid rgba(0,188,221,.15)}
 .tab{padding:11px 22px;color:rgba(255,255,255,.5);font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:.92rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;user-select:none}
 .tab:hover{color:rgba(255,255,255,.8)}
 .tab.active{color:var(--teal);border-bottom-color:var(--teal)}
 
+/* LOADING */
 #loading-overlay{display:none;position:fixed;inset:0;background:rgba(0,30,60,.85);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:16px}
 #loading-overlay.show{display:flex}
 .spinner{width:44px;height:44px;border:4px solid rgba(0,188,221,.3);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite}
@@ -82,6 +86,7 @@ main{padding:22px;max-width:1450px;margin:0 auto}
 .section{display:none}
 .section.active{display:block}
 
+/* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:22px}
 .kpi-card{background:var(--card);border-radius:12px;padding:18px;border:1px solid var(--bord);position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)}
 .kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--lime))}
@@ -91,6 +96,7 @@ main{padding:22px;max-width:1450px;margin:0 auto}
 .kpi-lbl{font-size:.7rem;color:var(--t2);font-weight:500;text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
 .kpi-sub{font-size:.74rem;color:var(--teal);margin-top:5px;font-weight:600}
 
+/* CHARTS */
 .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}
 .chart-card{background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--bord);box-shadow:0 2px 8px rgba(0,0,0,.05)}
 .chart-card.full{grid-column:1/-1}
@@ -100,6 +106,7 @@ main{padding:22px;max-width:1450px;margin:0 auto}
 .cw.tall{height:280px}
 .cw.mid{height:170px}
 
+/* TABLE */
 .table-card{background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--bord);box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:20px;overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:.8rem}
 th{text-align:left;padding:9px 12px;font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--blue);border-bottom:2px solid var(--bord);background:var(--surf)}
@@ -109,12 +116,14 @@ tr:hover td{background:var(--light)}
 .badge{display:inline-block;padding:2px 9px;border-radius:12px;font-size:.68rem;font-weight:700;letter-spacing:.04em}
 .bh{background:rgba(165,205,57,.2);color:#4a6e00}.bm{background:rgba(0,188,221,.15);color:#005f75}.bl{background:rgba(255,107,53,.15);color:#b83a0e}
 
+/* PROGRESS */
 .prog-bar{background:var(--surf);border-radius:4px;height:7px;overflow:hidden;flex:1}
 .prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--teal),var(--lime));transition:width .6s ease}
 .prog-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .prog-lbl{font-size:.75rem;min-width:130px;color:var(--t1);font-weight:500}
 .prog-pct{font-size:.75rem;font-weight:700;color:var(--blue);min-width:36px;text-align:right}
 
+/* EMP CARDS */
 .emp-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}
 .emp-card{background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--bord);box-shadow:0 2px 8px rgba(0,0,0,.05)}
 .emp-hdr{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--bord)}
@@ -125,6 +134,7 @@ tr:hover td{background:var(--light)}
 .esv{font-family:Barlow Condensed,sans-serif;font-size:1.5rem;font-weight:800;color:var(--dark)}
 .esl{font-size:.65rem;color:var(--t2);text-transform:uppercase;letter-spacing:.05em}
 
+/* PAGINATION */
 .pagination{display:flex;align-items:center;gap:8px;margin-top:12px;justify-content:flex-end}
 .pg-btn{padding:5px 12px;border:1.5px solid var(--bord);background:var(--card);border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;color:var(--t2);transition:all .15s}
 .pg-btn:hover,.pg-btn.active{border-color:var(--teal);color:var(--blue);background:var(--light)}
@@ -132,12 +142,14 @@ tr:hover td{background:var(--light)}
 
 @keyframes spin-btn { to { transform: rotate(360deg); } }
 
+/* Dark mode overrides */
 [data-theme="dark"] body { background: var(--surf); color: var(--t1); }
 [data-theme="dark"] header { background: #0A0D14; border-bottom: 1px solid rgba(0,220,255,.12); }
 [data-theme="dark"] .tabs { background: #0A0D14; border-bottom-color: rgba(0,220,255,.12); }
 [data-theme="dark"] .filter-panel { background: #131924; border-bottom-color: rgba(0,220,255,.18); }
 [data-theme="dark"] .filter-panel label { color: rgba(255,255,255,.75); }
 
+/* KPI cards — fondo con leve gradiente azulado */
 [data-theme="dark"] .kpi-card {
   background: linear-gradient(145deg, #1E2A3D, #162030);
   border-color: rgba(0,220,255,.25);
@@ -152,6 +164,7 @@ tr:hover td{background:var(--light)}
 [data-theme="dark"] .kpi-icon.ki-l { background: rgba(200,240,68,.12); }
 [data-theme="dark"] .kpi-icon.ki-o { background: rgba(255,159,106,.12); }
 
+/* Chart cards */
 [data-theme="dark"] .chart-card {
   background: linear-gradient(145deg, #1E2A3D, #162030);
   border-color: rgba(0,220,255,.2);
@@ -160,6 +173,7 @@ tr:hover td{background:var(--light)}
 [data-theme="dark"] .ct    { color: #00DCFF; }
 [data-theme="dark"] .cs    { color: #A8C4D8; }
 
+/* Table */
 [data-theme="dark"] .table-card {
   background: linear-gradient(145deg, #1E2A3D, #162030);
   border-color: rgba(0,220,255,.2);
@@ -172,6 +186,7 @@ tr:hover td{background:var(--light)}
 [data-theme="dark"] td { color: #E0EDF8; border-bottom-color: rgba(0,220,255,.1); }
 [data-theme="dark"] tr:hover td { background: rgba(0,220,255,.07); }
 
+/* Emp cards */
 [data-theme="dark"] .emp-card {
   background: linear-gradient(145deg, #1E2A3D, #162030);
   border-color: rgba(0,220,255,.2);
@@ -182,24 +197,30 @@ tr:hover td{background:var(--light)}
 [data-theme="dark"] .esl { color: #A8C4D8; }
 [data-theme="dark"] .emp-hdr { border-bottom-color: rgba(0,220,255,.15); }
 
+/* Tabs */
 [data-theme="dark"] .tab { color: rgba(255,255,255,.5); }
 [data-theme="dark"] .tab:hover { color: rgba(255,255,255,.85); }
 [data-theme="dark"] .tab.active { color: #00DCFF; border-bottom-color: #00DCFF; }
 
+/* Inputs */
 [data-theme="dark"] .date-input { color-scheme: dark; background: rgba(255,255,255,.08); border-color: rgba(0,220,255,.35); }
 [data-theme="dark"] input[type="text"] { background: #0F1A28 !important; color: #E0EDF8 !important; border-color: rgba(0,220,255,.25) !important; }
 [data-theme="dark"] select { background: #0F1A28 !important; color: #E0EDF8 !important; border-color: rgba(0,220,255,.25) !important; }
 
+/* Progress bars */
 [data-theme="dark"] .prog-bar { background: rgba(255,255,255,.08); }
 [data-theme="dark"] .prog-lbl { color: #D0E8F5; }
 [data-theme="dark"] .prog-pct { color: #00DCFF; }
 
+/* Badges */
 [data-theme="dark"] .bh { background: rgba(200,240,68,.18); color: #C8F044; }
 [data-theme="dark"] .bm { background: rgba(0,220,255,.15); color: #00DCFF; }
 [data-theme="dark"] .bl { background: rgba(255,102,102,.15); color: #FF9999; }
 
+/* Theme toggle button */
 [data-theme="dark"] #theme-toggle { background: rgba(0,220,255,.18); border-color: rgba(0,220,255,.45); color: #00DCFF; }
 
+/* Pagination */
 [data-theme="dark"] .pg-btn { background: #1A2130; border-color: rgba(0,220,255,.2); color: #A8C4D8; }
 [data-theme="dark"] .pg-btn:hover, [data-theme="dark"] .pg-btn.active { background: rgba(0,220,255,.15); border-color: #00DCFF; color: #00DCFF; }
 #refresh-btn:hover { background:rgba(0,188,221,.35) !important; transform:scale(1.1); }
@@ -222,8 +243,10 @@ tr:hover td{background:var(--light)}
   <div class="hbar"></div>
   <div class="hcontent">
     <script>
+    // LÍNEA MODIFICADA CON EL NUEVO ENLACE
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTsz11gB_eV1oQXGCkRzzSqoFYZJPDi7dkjO4FgUXADtqZYCjTuyHgeIciWQszgqEB_l4iSVF36qc4g/pubhtml';
-    </script>
     
-    </body>
+    // Aquí iría el resto de tu lógica de JavaScript para procesar el dashboard
+    </script>
+</body>
 </html>
