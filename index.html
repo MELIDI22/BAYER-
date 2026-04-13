@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayer – Dashboard Visitas v1</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        /* Estilos simplificados y optimizados */
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&family=Barlow:wght@300;400;600&display=swap');
+        
+        :root {
+            --blue: #003865; --teal: #00BCDD; --lime: #A5CD39;
+            --dark: #001E3C; --surf: #F4F8FC; --card: #FFFFFF;
+        }
+
+        body { font-family: 'Barlow', sans-serif; background: var(--surf); margin: 0; }
+        header { background: var(--dark); color: white; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+        .container { padding: 20px; max-width: 1200px; margin: auto; }
+        
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .kpi-card { background: var(--card); padding: 20px; border-radius: 10px; border-left: 5px solid var(--teal); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .kpi-val { font-size: 2rem; font-weight: bold; color: var(--blue); }
+        .kpi-label { font-size: 0.8rem; text-transform: uppercase; color: #666; }
+
+        .table-container { background: white; padding: 20px; border-radius: 10px; overflow-x: auto; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        th { background: var(--blue); color: white; padding: 12px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #eee; }
+        tr:hover { background: #f9f9f9; }
+
+        #loading { position: fixed; inset: 0; background: rgba(255,255,255,0.9); display: flex; justify-content: center; align-items: center; z-index: 100; }
+    </style>
+</head>
+<body>
+
+<div id="loading">Cargando datos de Google Sheets...</div>
+
+<header>
+    <div>
+        <h1 style="margin:0; font-family: 'Barlow Condensed';">BAYER DASHBOARD</h1>
+        <small>Resumen de Visitas PDV</small>
+    </div>
+</header>
+
+<div class="container">
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div id="totalVisitas" class="kpi-val">0</div>
+            <div class="kpi-label">Total Visitas</div>
+        </div>
+        <div class="kpi-card" style="border-left-color: var(--lime);">
+            <div id="totalPuntos" class="kpi-val">0</div>
+            <div class="kpi-label">Puntos de Venta</div>
+        </div>
+        <div class="kpi-card" style="border-left-color: orange;">
+            <div id="promedioTiempo" class="kpi-val">0h</div>
+            <div class="kpi-label">Tiempo Promedio</div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <h3>Detalle de Visitas</h3>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Empleado</th>
+                    <th>Punto de Venta</th>
+                    <th>Fecha</th>
+                    <th>Check-in</th>
+                    <th>Check-out</th>
+                    <th>Tiempo</th>
+                    <th>Ciudad</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTsz11gB_eV1oQXGCkRzzSqoFYZJPDi7dkjO4FgUXADtqZYCjTuyHgeIciWQszgqEB_l4iSVF36qc4g/pubhtml';
+
+    async function fetchData() {
+        try {
+            const response = await fetch(SHEET_URL);
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const table = doc.querySelector('table');
+            const rows = Array.from(table.querySelectorAll('tr')).slice(1); // Ignorar cabecera de Sheet
+
+            let htmlContent = '';
+            let puntosVenta = new Set();
+
+            rows.forEach(row => {
+                const cols = row.querySelectorAll('td');
+                if (cols.length > 0) {
+                    // Mapeo según tus columnas específicas
+                    const empleado = cols[0]?.innerText || '-';
+                    const pdv = cols[1]?.innerText || '-';
+                    const fecha = cols[3]?.innerText || '-';
+                    const checkIn = cols[4]?.innerText || '-';
+                    const checkOut = cols[5]?.innerText || '-';
+                    const tiempo = cols[6]?.innerText || '-';
+                    const ciudad = cols[8]?.innerText || '-';
+
+                    puntosVenta.add(pdv);
+
+                    htmlContent += `
+                        <tr>
+                            <td>${empleado}</td>
+                            <td>${pdv}</td>
+                            <td>${fecha}</td>
+                            <td>${checkIn}</td>
+                            <td>${checkOut}</td>
+                            <td>${tiempo}</td>
+                            <td>${ciudad}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            document.getElementById('tableBody').innerHTML = htmlContent;
+            document.getElementById('totalVisitas').innerText = rows.length;
+            document.getElementById('totalPuntos').innerText = puntosVenta.size;
+            document.getElementById('loading').style.display = 'none';
+
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('loading').innerText = 'Error al cargar datos.';
+        }
+    }
+
+    fetchData();
+</script>
+
+</body>
+</html>
