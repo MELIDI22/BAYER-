@@ -137,7 +137,12 @@ tr:hover td{background:var(--light)}
 [data-theme="dark"] .tabs { background: #0A0D14; border-bottom-color: rgba(0,220,255,.12); }
 [data-theme="dark"] .filter-panel { background: #131924; border-bottom-color: rgba(0,220,255,.18); }
 [data-theme="dark"] .filter-panel label { color: rgba(255,255,255,.75); }
-[data-theme="dark"] .kpi-card { background: linear-gradient(145deg, #1E2A3D, #162030); border-color: rgba(0,220,255,.25); box-shadow: 0 4px 16px rgba(0,0,0,.5); }
+
+[data-theme="dark"] .kpi-card {
+  background: linear-gradient(145deg, #1E2A3D, #162030);
+  border-color: rgba(0,220,255,.25);
+  box-shadow: 0 4px 16px rgba(0,0,0,.5);
+}
 [data-theme="dark"] .kpi-card::before { background: linear-gradient(90deg, #00DCFF, #C8F044); }
 [data-theme="dark"] .kpi-val  { color: #F0F6FF; }
 [data-theme="dark"] .kpi-lbl  { color: #A8C4D8; }
@@ -146,32 +151,55 @@ tr:hover td{background:var(--light)}
 [data-theme="dark"] .kpi-icon.ki-t { background: rgba(0,220,255,.15); }
 [data-theme="dark"] .kpi-icon.ki-l { background: rgba(200,240,68,.12); }
 [data-theme="dark"] .kpi-icon.ki-o { background: rgba(255,159,106,.12); }
-[data-theme="dark"] .chart-card { background: linear-gradient(145deg, #1E2A3D, #162030); border-color: rgba(0,220,255,.2); box-shadow: 0 4px 16px rgba(0,0,0,.5); }
+
+[data-theme="dark"] .chart-card {
+  background: linear-gradient(145deg, #1E2A3D, #162030);
+  border-color: rgba(0,220,255,.2);
+  box-shadow: 0 4px 16px rgba(0,0,0,.5);
+}
 [data-theme="dark"] .ct    { color: #00DCFF; }
 [data-theme="dark"] .cs    { color: #A8C4D8; }
-[data-theme="dark"] .table-card { background: linear-gradient(145deg, #1E2A3D, #162030); border-color: rgba(0,220,255,.2); }
-[data-theme="dark"] th { background: #0F1A28; color: #00DCFF; border-bottom-color: rgba(0,220,255,.25); }
+
+[data-theme="dark"] .table-card {
+  background: linear-gradient(145deg, #1E2A3D, #162030);
+  border-color: rgba(0,220,255,.2);
+}
+[data-theme="dark"] th {
+  background: #0F1A28;
+  color: #00DCFF;
+  border-bottom-color: rgba(0,220,255,.25);
+}
 [data-theme="dark"] td { color: #E0EDF8; border-bottom-color: rgba(0,220,255,.1); }
 [data-theme="dark"] tr:hover td { background: rgba(0,220,255,.07); }
-[data-theme="dark"] .emp-card { background: linear-gradient(145deg, #1E2A3D, #162030); border-color: rgba(0,220,255,.2); }
+
+[data-theme="dark"] .emp-card {
+  background: linear-gradient(145deg, #1E2A3D, #162030);
+  border-color: rgba(0,220,255,.2);
+}
 [data-theme="dark"] .emp-name { color: #00DCFF; }
 [data-theme="dark"] .emp-role { color: #A8C4D8; }
 [data-theme="dark"] .esv { color: #F0F6FF; }
 [data-theme="dark"] .esl { color: #A8C4D8; }
 [data-theme="dark"] .emp-hdr { border-bottom-color: rgba(0,220,255,.15); }
+
 [data-theme="dark"] .tab { color: rgba(255,255,255,.5); }
 [data-theme="dark"] .tab:hover { color: rgba(255,255,255,.85); }
 [data-theme="dark"] .tab.active { color: #00DCFF; border-bottom-color: #00DCFF; }
+
 [data-theme="dark"] .date-input { color-scheme: dark; background: rgba(255,255,255,.08); border-color: rgba(0,220,255,.35); }
 [data-theme="dark"] input[type="text"] { background: #0F1A28 !important; color: #E0EDF8 !important; border-color: rgba(0,220,255,.25) !important; }
 [data-theme="dark"] select { background: #0F1A28 !important; color: #E0EDF8 !important; border-color: rgba(0,220,255,.25) !important; }
+
 [data-theme="dark"] .prog-bar { background: rgba(255,255,255,.08); }
 [data-theme="dark"] .prog-lbl { color: #D0E8F5; }
 [data-theme="dark"] .prog-pct { color: #00DCFF; }
+
 [data-theme="dark"] .bh { background: rgba(200,240,68,.18); color: #C8F044; }
 [data-theme="dark"] .bm { background: rgba(0,220,255,.15); color: #00DCFF; }
 [data-theme="dark"] .bl { background: rgba(255,102,102,.15); color: #FF9999; }
+
 [data-theme="dark"] #theme-toggle { background: rgba(0,220,255,.18); border-color: rgba(0,220,255,.45); color: #00DCFF; }
+
 [data-theme="dark"] .pg-btn { background: #1A2130; border-color: rgba(0,220,255,.2); color: #A8C4D8; }
 [data-theme="dark"] .pg-btn:hover, [data-theme="dark"] .pg-btn.active { background: rgba(0,220,255,.15); border-color: #00DCFF; color: #00DCFF; }
 #refresh-btn:hover { background:rgba(0,188,221,.35) !important; transform:scale(1.1); }
@@ -193,92 +221,9 @@ tr:hover td{background:var(--light)}
 <header>
   <div class="hbar"></div>
   <div class="hcontent">
-    <div class="htitles">
-      <h1>Bayer Dashboard</h1>
-      <p>Farmacias v3</p>
-    </div>
-  </div>
-</header>
-
-<main>
-  <section class="section active">
-    <div class="kpi-grid">
-      <div class="kpi-card"><div class="ki-b kpi-icon">📊</div><div class="kpi-val" id="kpi-visitas">0</div><div class="kpi-lbl">Total Visitas</div></div>
-      <div class="kpi-card"><div class="ki-t kpi-icon">📍</div><div class="kpi-val" id="kpi-pdv">0</div><div class="kpi-lbl">Puntos de Venta</div></div>
-      <div class="kpi-card"><div class="ki-l kpi-icon">⏱️</div><div class="kpi-val" id="kpi-tiempo">0h</div><div class="kpi-lbl">Tiempo Total</div></div>
-    </div>
-
-    <div class="charts-grid">
-      <div class="chart-card full">
-        <div class="ct">Resumen de Actividad</div>
-        <div class="cw tall"><canvas id="mainChart"></canvas></div>
-      </div>
-    </div>
-
-    <div class="table-card">
-      <table id="dataTable">
-        <thead>
-          <tr>
-            <th>Empleado</th>
-            <th>PDV</th>
-            <th>Fecha</th>
-            <th>Check-in</th>
-            <th>Check-out</th>
-            <th>Total Horas</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-    </div>
-
-    <div class="charts-grid">
-       <div class="chart-card">
-          <div class="ct">Frecuencia por Ciudad</div>
-          <div class="cw"><canvas id="cityChart"></canvas></div>
-       </div>
-    </div>
-  </section>
-</main>
-
-<script>
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTsz11gB_eV1oQXGCkRzzSqoFYZJPDi7dkjO4FgUXADtqZYCjTuyHgeIciWQszgqEB_l4iSVF36qc4g/pubhtml';
-
-async function init() {
-  document.getElementById('loading-overlay').classList.add('show');
-  try {
-    const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(SHEET_URL);
-    const response = await fetch(proxyUrl);
-    const data = await response.json();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(data.contents, 'text/html');
-    const table = doc.querySelector('table');
-    if(table) processData(table);
-  } catch (e) {
-    console.error(e);
-  }
-  document.getElementById('loading-overlay').classList.remove('show');
-}
-
-function processData(table) {
-  const rows = Array.from(table.querySelectorAll('tr')).slice(1);
-  let html = '';
-  rows.forEach(r => {
-    const cols = r.querySelectorAll('td');
-    if(cols.length > 0) {
-      html += `<tr>
-        <td>${cols[0]?.innerText || ''}</td>
-        <td>${cols[1]?.innerText || ''}</td>
-        <td>${cols[3]?.innerText || ''}</td>
-        <td>${cols[4]?.innerText || ''}</td>
-        <td>${cols[5]?.innerText || ''}</td>
-        <td>${cols[6]?.innerText || ''}</td>
-      </tr>`;
-    }
-  });
-  document.getElementById('tableBody').innerHTML = html;
-}
-
-init();
-</script>
-</body>
+    <script>
+    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTsz11gB_eV1oQXGCkRzzSqoFYZJPDi7dkjO4FgUXADtqZYCjTuyHgeIciWQszgqEB_l4iSVF36qc4g/pubhtml';
+    </script>
+    
+    </body>
 </html>
