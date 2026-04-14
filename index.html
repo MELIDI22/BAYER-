@@ -979,8 +979,8 @@ canvas { max-height: 280px; }
       <div class="data-table-wrap" style="max-height:500px;overflow-y:auto;">
         <table class="data-table" id="mainTable">
           <thead><tr>
-            <th>#</th><th>Fecha</th><th>Promotor</th><th>Cadena</th><th>PDV</th>
-            <th>Check-in</th><th>Check-out</th><th>Duración</th><th>Estado</th>
+            <th>#</th><th>Fecha</th><th>Empleado</th><th>Cadena</th><th>Punto de Venta</th>
+            <th>ID PDV</th><th>Check-in</th><th>Check-out</th><th>Tiempo PDV</th><th>Ciudad</th><th>Estado</th>
           </tr></thead>
           <tbody id="mainTableBody"></tbody>
         </table>
@@ -993,25 +993,23 @@ canvas { max-height: 280px; }
 <!-- ════════════════ SCRIPTS ════════════════ -->
 <script>
 // ══════════════════════════════════════════════
-// CONFIG — ajusta la URL de tu Google Sheet aquí
+// CONFIG — Hoja PRODUCTIVIDAD de MATRIZ BAYER
 // ══════════════════════════════════════════════
 const SHEET_CONFIG = {
-  // URL pública en formato CSV (File > Share > Publish to web > CSV)
-  // Reemplaza con tu propia URL si cambias el sheet
-  csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTsz11gB_eV1oQXGCkRzzSqoFYZJPDi7dkjO4FgUXADtqZYCjTuyHgeIciWQszgqEB_l4iSVF36qc4g/pub?output=csv',
-  
-  // Nombres de columnas esperadas (ajusta según tu sheet real)
-  cols: {
-    fecha:     'fecha',        // Fecha de visita (YYYY-MM-DD o DD/MM/YYYY)
-    promotor:  'promotor',     // Nombre del relevador
-    cadena:    'cadena',       // Cadena farmacéutica
-    pdv:       'pdv',          // Nombre del punto de venta
-    checkin:   'checkin',      // Hora de check-in (HH:MM)
-    checkout:  'checkout',     // Hora de check-out (HH:MM)
-    duracion:  'duracion',     // Duración en minutos (opcional, se calcula)
-    producto:  'producto',     // Producto (para tab ofertas)
-    oferta:    'oferta',       // Tipo de oferta
-  }
+  // URL CSV pública de la hoja PRODUCTIVIDAD
+  // Generada en: Archivo > Compartir > Publicar en la web > PRODUCTIVIDAD > CSV
+  csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTsz11gB_eV1oQXGCkRzzSqoFYZJPDi7dkjO4FgUXADtqZYCjTuyHgelciWQszgqEB_l4iSVF36qc4g/pub?gid=1442986623&single=true&output=csv',
+
+  // Columnas reales de la hoja (tal como aparecen en fila 1):
+  // A: Empleado
+  // B: Punto de venta
+  // C: ID PDV
+  // D: Fecha de la visita  (DD/MM/YYYY)
+  // E: Primer check-in manual  (HH:MM)
+  // F: Último check-out manual (HH:MM)
+  // G: Tiempo en PDV  (H:MM:SS)
+  // H: Motivo de No realizacion de tareas
+  // I: Ciudad
 };
 
 // ══════════════════════════════════════════════
@@ -1062,45 +1060,144 @@ async function loadData() {
 }
 
 // ══════════════════════════════════════════════
-// PARSEO CSV
+// PARSEO CSV — Mapeo exacto hoja PRODUCTIVIDAD
+// Columnas: Empleado | Punto de venta | ID PDV |
+//   Fecha de la visita | Primer check-in manual |
+//   Último check-out manual | Tiempo en PDV |
+//   Motivo de No realizacion de tareas | Ciudad
 // ══════════════════════════════════════════════
 function parseCSV(text) {
   const lines = text.trim().split('\n');
   if (lines.length < 2) return [];
-  
-  // Detectar separador
-  const sep = lines[0].includes(';') ? ';' : ',';
-  const headers = lines[0].split(sep).map(h => h.trim().toLowerCase()
-    .replace(/\s+/g,'_')
-    .replace(/[áàä]/g,'a').replace(/[éèë]/g,'e')
-    .replace(/[íìï]/g,'i').replace(/[óòö]/g,'o')
-    .replace(/[úùü]/g,'u').replace(/ñ/g,'n'));
-  
+
+  // Google Sheets publica CSV con coma como separador
+  const sep = ',';
+
+  // Normalizar encabezados: quitar tildes, espacios → guión bajo, minúsculas
+  function normalizeHeader(h) {
+    return h.trim().toLowerCase()
+      .replace(/[áàâä]/g,'a').replace(/[éèêë]/g,'e')
+      .replace(/[íìîï]/g,'i').replace(/[óòôö]/g,'o')
+      .replace(/[úùûü]/g,'u').replace(/ñ/g,'n')
+      .replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+  }
+
+  const headers = parseCSVLine(lines[0], sep).map(normalizeHeader);
+
+  // Índices de columnas conocidas (por nombre normalizado)
+  // Columnas reales normalizadas:
+  //   empleado | punto_de_venta | id_pdv (o d_pdv) |
+  //   fecha_de_la_visita | primer_check-in_manual (→ primer_check_in_manual) |
+  //   ultimo_check-out_manual | tiempo_en_pdv |
+  //   motivo_de_no_realizacion_de_tareas | ciudad
+  const idx = {};
+  headers.forEach((h, i) => { idx[h] = i; });
+
+  // Helper para obtener valor por nombre de columna
+  const get = (vals, ...keys) => {
+    for (const k of keys) {
+      if (idx[k] !== undefined && vals[idx[k]] !== undefined)
+        return (vals[idx[k]] || '').trim();
+    }
+    return '';
+  };
+
   const rows = [];
   for (let i = 1; i < lines.length; i++) {
     if (!lines[i].trim()) continue;
     const vals = parseCSVLine(lines[i], sep);
-    if (vals.length < 2) continue;
+    if (vals.length < 3) continue;
+
+    // Construir fila con campos originales
     const row = {};
-    headers.forEach((h, idx) => { row[h] = (vals[idx] || '').trim(); });
-    
-    // Normalizar campos clave
-    row._fecha    = normalizeDate(row.fecha || row.date || row.f_visita || '');
-    row._promotor = row.promotor || row.relevador || row.vendedor || row.nombre || '';
-    row._cadena   = row.cadena || row.farmacia || row.chain || '';
-    row._pdv      = row.pdv || row.punto_de_venta || row.local || row.sucursal || '';
-    row._checkin  = row.checkin || row.check_in || row.hora_entrada || '';
-    row._checkout = row.checkout || row.check_out || row.hora_salida || '';
-    row._producto = row.producto || row.product || '';
-    row._oferta   = row.oferta || row.tipo_oferta || row.promocion || '';
-    
-    // Calcular duración en minutos
-    row._duracion = calcDuracion(row._checkin, row._checkout) || 
-                    parseInt(row.duracion || row.tiempo || 0) || 0;
-    
-    rows.push(row);
+    headers.forEach((h, idx2) => { row[h] = (vals[idx2] || '').trim(); });
+
+    // ── Campos normalizados internos (_campo) ──────────────────
+    // Empleado → _promotor
+    row._promotor = get(vals,
+      'empleado', 'promotor', 'relevador', 'nombre', 'vendedor'
+    );
+
+    // Punto de venta → _pdv
+    row._pdv = get(vals,
+      'punto_de_venta', 'pdv', 'local', 'sucursal', 'farmacia'
+    );
+
+    // ID PDV → _idpdv (puede aparecer como "d_pdv" al normalizar "ID PDV")
+    row._idpdv = get(vals,
+      'id_pdv', 'd_pdv', 'idpdv', 'id'
+    );
+
+    // Fecha de la visita (DD/MM/YYYY) → _fecha (YYYY-MM-DD)
+    const fechaRaw = get(vals,
+      'fecha_de_la_visita', 'fecha', 'date', 'f_visita', 'fecha_visita'
+    );
+    row._fecha = normalizeDate(fechaRaw);
+
+    // Check-in y Check-out (HH:MM)
+    row._checkin = get(vals,
+      'primer_check_in_manual', 'primer_checkin_manual',
+      'checkin', 'check_in', 'hora_entrada', 'hora_checkin'
+    );
+    row._checkout = get(vals,
+      'ultimo_check_out_manual', 'ultimo_checkout_manual',
+      'checkout', 'check_out', 'hora_salida', 'hora_checkout'
+    );
+
+    // Tiempo en PDV (H:MM:SS o HH:MM) → _duracion en minutos
+    const tiempoRaw = get(vals,
+      'tiempo_en_pdv', 'tiempo', 'duracion', 'duration'
+    );
+    row._tiempoRaw = tiempoRaw;
+    row._duracion = parseTiempo(tiempoRaw)
+      || calcDuracion(row._checkin, row._checkout);
+
+    // Motivo de no realización → _motivo
+    row._motivo = get(vals,
+      'motivo_de_no_realizacion_de_tareas',
+      'motivo_no_realizacion', 'motivo', 'observacion'
+    );
+
+    // Ciudad → _ciudad
+    row._ciudad = get(vals, 'ciudad', 'city', 'localidad');
+
+    // Detectar cadena a partir del nombre del PDV
+    // (el sheet no tiene columna cadena separada)
+    row._cadena = detectarCadena(row._pdv);
+
+    // Campos vacíos de ofertas (no aplica en esta hoja)
+    row._producto = '';
+    row._oferta   = '';
+
+    // Solo incluir filas con al menos promotor o PDV
+    if (row._promotor || row._pdv) rows.push(row);
   }
   return rows;
+}
+
+// Detecta la cadena farmacéutica desde el nombre del PDV
+function detectarCadena(pdv) {
+  if (!pdv) return 'Sin cadena';
+  const p = pdv.toUpperCase();
+  if (p.includes('FARMACENTER'))  return 'Farmacenter';
+  if (p.includes('PUNTO FARMA') || p.includes('PUNTOFARMA')) return 'Punto Farma';
+  if (p.includes('FARMATOTAL'))   return 'Farmatotal';
+  if (p.includes('FARMA OLIVA') || p.includes('OLIVA')) return 'Farma Oliva';
+  if (p.includes('FARMA EXPRESS') || p.includes('FARMAEXPRESS')) return 'Farma Express';
+  if (p.includes('SAN ROQUE'))    return 'San Roque';
+  if (p.includes('MULTIFARMA'))   return 'Multifarma';
+  if (p.includes('CATEDRAL'))     return 'Catedral';
+  if (p.includes('FARMA'))        return 'Otras Farmas';
+  return 'Otros';
+}
+
+// Parsea "H:MM:SS" o "HH:MM" a minutos enteros
+function parseTiempo(t) {
+  if (!t) return 0;
+  const parts = t.split(':').map(Number);
+  if (parts.length === 3) return parts[0]*60 + parts[1] + Math.round(parts[2]/60);
+  if (parts.length === 2) return parts[0]*60 + parts[1];
+  return 0;
 }
 
 function parseCSVLine(line, sep) {
@@ -1140,51 +1237,77 @@ function calcDuracion(cin, cout) {
 }
 
 // ══════════════════════════════════════════════
-// DATOS DEMO (si no hay conexión al sheet)
+// DATOS DEMO — refleja estructura real del sheet
+// Se usa cuando el Sheet no está disponible
 // ══════════════════════════════════════════════
 function generateDemoData() {
-  const promotores = ['Felix Recalde','Marcelo Meza','Ana Portillo','Carlos Duarte'];
-  const cadenas = ['Farmacenter','Punto Farma','San Roque','Farma Express','Multifarma'];
-  const pdvs = {
-    'Farmacenter': ['Shopping del Sol','Villa Morra','San Lorenzo','Fernando','Lambaré'],
-    'Punto Farma': ['Luque','Mariano Roque','Capiatá','Itauguá','Guarambaré'],
-    'San Roque': ['Centro','Sajonia','Tablada','Recoleta','Asunción Sur'],
-    'Farma Express': ['Ycuá Bolaños','Mcal. López','España','Brasil','Tte. Fariña'],
-    'Multifarma': ['Encarnación','Pedro Juan','Concepción','Ciudad del Este','Villarrica'],
+  const promotores = [
+    'FELIX FERNANDO RECALDE MALDONADO',
+    'MARCELO ADRIAN MEZA',
+  ];
+  // PDVs reales del sheet agrupados por cadena detectada
+  const pdvsPorCadena = {
+    'Farmacenter': [
+      'FARMACENTER VILLA MORRA','FARMACENTER PRIMER PRESIDENTE',
+      'FARMACENTER SANTÍSIMA TRINIDAD','FARMACENTER JULIO CORREA',
+      'FARMACENTER QUINTA','FARMACENTER QUINTA 2 AV. QUINTA E/ PARAPITI',
+    ],
+    'Punto Farma': [
+      'PUNTO FARMA 11 - AV BOGGIANI ESQ MACHAIN',
+      'PUNTO FARMA 785','PUNTO FARMA 222 - AVDA REPÚBLICA ARGENTINA',
+      'PUNTO FARMA 700','PUNTO FARMA PUNTO 464 AV. PRIMER PRESIDENTE',
+      'PUNTO FARMA PUNTO 212','PUNTO FARMA PUNTO 500',
+      'PUNTO FARMA 58 - AVDA 21 PROYECTADAS ESQ. EEUU',
+      'PUNTO FARMA 528 NOVENA C/ CABALLERO (STOCK BARRIO OBRERO)',
+    ],
+    'Farmatotal': [
+      'FARMATOTAL MACHAÍN R.I.2 YTORORO E/ FACUNDO MACHAÍN',
+    ],
+    'Otras Farmas': [
+      'CATEDRAL PACHECO','FARMA OLIVA VILLA MORRA RCA. ARGENTINA C/ AV. MCAL. LÓPEZ',
+      'PUNTOFARMA PUNTO 231',
+    ],
   };
-  const productos = ['Aspirina','Redoxon','Canesten','Bepanthen','Aleve','Claritin'];
-  const ofertas = ['2x1','Descuento 20%','Precio especial','Bundle promo','Sin oferta'];
-  
+
   const rows = [];
   const start = new Date('2026-04-01');
+
   for (let d = 0; d < 10; d++) {
     const fecha = new Date(start);
     fecha.setDate(fecha.getDate() + d);
-    if (fecha.getDay() === 0) continue; // sin domingo
+    if (fecha.getDay() === 0) continue; // sin domingos
     const dateStr = fecha.toISOString().substring(0,10);
-    
+
     promotores.forEach(prom => {
-      const n = Math.floor(Math.random() * 8) + 3;
-      const cadenaOpts = [...cadenas].sort(() => Math.random()-0.5).slice(0, Math.ceil(n/2));
+      const cadenas = Object.keys(pdvsPorCadena);
+      const n = Math.floor(Math.random() * 7) + 5; // 5–11 visitas/día
       for (let i = 0; i < n; i++) {
-        const cadena = cadenaOpts[i % cadenaOpts.length];
-        const pdvList = pdvs[cadena];
-        const pdv = pdvList[Math.floor(Math.random() * pdvList.length)];
-        const cinH = 8 + Math.floor(i * 0.7);
-        const cinM = Math.floor(Math.random() * 60);
-        const dur = 15 + Math.floor(Math.random() * 30);
-        const coH = Math.floor((cinH * 60 + cinM + dur) / 60);
-        const coM = (cinM + dur) % 60;
+        const cadena = cadenas[Math.floor(Math.random() * cadenas.length)];
+        const lista  = pdvsPorCadena[cadena];
+        const pdv    = lista[Math.floor(Math.random() * lista.length)];
+        const cinH   = 8 + Math.floor(i * 0.65);
+        const cinM   = Math.floor(Math.random() * 60);
+        const dur    = 10 + Math.floor(Math.random() * 55); // 10–64 min
+        const totalMin = cinH * 60 + cinM + dur;
+        const coH    = Math.floor(totalMin / 60);
+        const coM    = totalMin % 60;
+        const hh = n => String(n).padStart(2,'0');
+        const durH = Math.floor(dur/60);
+        const durM = dur % 60;
         rows.push({
-          _fecha: dateStr,
+          _fecha:    dateStr,
           _promotor: prom,
-          _cadena: cadena,
-          _pdv: pdv,
-          _checkin: `${String(cinH).padStart(2,'0')}:${String(cinM).padStart(2,'0')}`,
-          _checkout: `${String(coH).padStart(2,'0')}:${String(coM).padStart(2,'0')}`,
+          _cadena:   cadena,
+          _pdv:      pdv,
+          _idpdv:    String(14900 + Math.floor(Math.random()*2000)),
+          _checkin:  `${hh(cinH)}:${hh(cinM)}`,
+          _checkout: `${hh(coH)}:${hh(coM)}`,
+          _tiempoRaw:`${durH}:${hh(durM)}:00`,
           _duracion: dur,
-          _producto: productos[Math.floor(Math.random() * productos.length)],
-          _oferta: ofertas[Math.floor(Math.random() * ofertas.length)],
+          _motivo:   '',
+          _ciudad:   'Asunción',
+          _producto: '',
+          _oferta:   '',
         });
       }
     });
@@ -1688,21 +1811,40 @@ function buildTable(data) {
   const tbody = document.getElementById('mainTableBody');
   tbody.innerHTML = data.slice(0, 500).map((r, i) => {
     const dur = r._duracion;
-    const estado = !r._checkin ? 'Sin marcación' : (!r._checkout ? 'Solo check-in' : 'Completo');
-    const badgeClass = estado === 'Completo' ? 'badge-green' : (estado === 'Sin marcación' ? 'badge-red' : 'badge-yellow');
+    // Estado: sin check-in, solo check-in, completo, o sin marcación + motivo
+    let estado, badgeClass;
+    if (r._motivo && !r._checkin) {
+      estado = 'Sin visita'; badgeClass = 'badge-red';
+    } else if (!r._checkin) {
+      estado = 'Sin marcación'; badgeClass = 'badge-red';
+    } else if (!r._checkout) {
+      estado = 'Solo check-in'; badgeClass = 'badge-yellow';
+    } else {
+      estado = 'Completo'; badgeClass = 'badge-green';
+    }
+    // Formatear tiempo en PDV desde _tiempoRaw si existe
+    const tiempoDisplay = r._tiempoRaw
+      ? r._tiempoRaw.substring(0, 5)            // "H:MM"
+      : (dur ? dur + ' min' : '–');
     return `
       <tr>
         <td style="color:var(--text-muted)">${i+1}</td>
         <td>${fmtDate(r._fecha)}</td>
-        <td><strong>${r._promotor}</strong></td>
+        <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis" title="${r._promotor}">
+          <strong>${r._promotor}</strong>
+        </td>
         <td>${r._cadena}</td>
-        <td>${r._pdv}</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;font-size:12px;" title="${r._pdv}">
+          ${r._pdv}
+        </td>
+        <td style="color:var(--text-muted);font-size:12px;">${r._idpdv || '–'}</td>
         <td>${r._checkin || '–'}</td>
         <td>${r._checkout || '–'}</td>
-        <td>${dur ? dur + ' min' : '–'}</td>
+        <td style="font-family:var(--font-cond);font-size:15px;">${tiempoDisplay}</td>
+        <td>${r._ciudad || 'Asunción'}</td>
         <td><span class="badge ${badgeClass}">${estado}</span></td>
       </tr>`;
-  }).join('') || '<tr><td colspan="9" class="empty-state"><div class="icon">📋</div><p>Sin datos</p></td></tr>';
+  }).join('') || '<tr><td colspan="11" style="text-align:center;color:var(--text-muted);padding:32px">Sin datos</td></tr>';
 }
 
 function filterTable() {
@@ -1803,54 +1945,72 @@ async function downloadPDF() {
 // ══════════════════════════════════════════════
 function downloadExcel() {
   const wb = XLSX.utils.book_new();
-  
-  // Hoja 1: Visitas
+
+  // ── Hoja 1: Detalle de visitas ─────────────────────────────
   const visitasData = filteredData.map(r => ({
-    'Fecha': r._fecha,
-    'Promotor': r._promotor,
-    'Cadena': r._cadena,
-    'PDV': r._pdv,
-    'Check-in': r._checkin,
-    'Check-out': r._checkout,
-    'Duración (min)': r._duracion,
-    'Producto': r._producto,
-    'Oferta': r._oferta,
+    'Empleado':              r._promotor,
+    'Punto de Venta':        r._pdv,
+    'ID PDV':                r._idpdv || '',
+    'Cadena (detectada)':    r._cadena,
+    'Fecha de la Visita':    r._fecha,
+    'Primer Check-in':       r._checkin,
+    'Último Check-out':      r._checkout,
+    'Tiempo en PDV':         r._tiempoRaw || (r._duracion ? r._duracion + ' min' : ''),
+    'Duración (min)':        r._duracion,
+    'Ciudad':                r._ciudad || 'Asunción',
+    'Motivo No Realización': r._motivo || '',
   }));
   const ws1 = XLSX.utils.json_to_sheet(visitasData);
+  // Anchos de columna
+  ws1['!cols'] = [
+    {wch:30},{wch:45},{wch:8},{wch:18},{wch:14},
+    {wch:12},{wch:13},{wch:12},{wch:14},{wch:12},{wch:35}
+  ];
   XLSX.utils.book_append_sheet(wb, ws1, 'Visitas');
-  
-  // Hoja 2: Resumen promotores
-  const promotores = [...new Set(filteredData.map(r=>r._promotor).filter(Boolean))];
+
+  // ── Hoja 2: Resumen por empleado ───────────────────────────
+  const promotores = [...new Set(filteredData.map(r => r._promotor).filter(Boolean))];
   const resumenData = promotores.map(p => {
-    const v = filteredData.filter(r=>r._promotor===p);
-    const drs = v.map(r=>r._duracion).filter(x=>x>0);
-    const pdvU = [...new Set(v.map(r=>r._pdv))].length;
+    const v    = filteredData.filter(r => r._promotor === p);
+    const drs  = v.map(r => r._duracion).filter(x => x > 0);
+    const pdvU = [...new Set(v.map(r => r._pdv))].length;
+    const dias = [...new Set(v.map(r => r._fecha))].length;
     return {
-      'Promotor': p,
-      'Total Visitas': v.length,
-      'PDVs Únicos': pdvU,
-      'Prom. Min PDV': drs.length ? Math.round(drs.reduce((a,b)=>a+b,0)/drs.length) : 0,
-      '% del Total': Math.round(v.length / (filteredData.length||1) * 100) + '%',
+      'Empleado':          p,
+      'Total Visitas':     v.length,
+      'PDVs Únicos':       pdvU,
+      'Días Activos':      dias,
+      'Prom. Min en PDV':  drs.length ? Math.round(drs.reduce((a,b)=>a+b,0)/drs.length) : 0,
+      'Total Min en PDV':  drs.reduce((a,b)=>a+b,0),
+      '% del Total':       Math.round(v.length / (filteredData.length||1) * 100) + '%',
     };
   });
   const ws2 = XLSX.utils.json_to_sheet(resumenData);
-  XLSX.utils.book_append_sheet(wb, ws2, 'Resumen Promotores');
-  
-  // Hoja 3: Top PDVs
+  ws2['!cols'] = [{wch:32},{wch:14},{wch:12},{wch:13},{wch:16},{wch:15},{wch:12}];
+  XLSX.utils.book_append_sheet(wb, ws2, 'Resumen Empleados');
+
+  // ── Hoja 3: Top PDVs ───────────────────────────────────────
   const byPdv = groupBy(filteredData, '_pdv');
   const topPdvData = Object.entries(byPdv)
     .filter(([k]) => k)
     .sort((a,b) => b[1].length - a[1].length)
-    .slice(0,20)
-    .map(([pdv, rows]) => ({
-      'PDV': pdv,
-      'Cadena': rows[0]?._cadena || '',
-      'Visitas': rows.length,
-    }));
+    .slice(0, 30)
+    .map(([pdv, rows], i) => {
+      const drs = rows.map(r=>r._duracion).filter(v=>v>0);
+      return {
+        'Rank':           i+1,
+        'Punto de Venta': pdv,
+        'Cadena':         rows[0]?._cadena || '',
+        'ID PDV':         rows[0]?._idpdv || '',
+        'Total Visitas':  rows.length,
+        'Prom. Min':      drs.length ? Math.round(drs.reduce((a,b)=>a+b,0)/drs.length) : 0,
+      };
+    });
   const ws3 = XLSX.utils.json_to_sheet(topPdvData);
+  ws3['!cols'] = [{wch:6},{wch:48},{wch:18},{wch:8},{wch:14},{wch:10}];
   XLSX.utils.book_append_sheet(wb, ws3, 'Top PDVs');
-  
-  XLSX.writeFile(wb, `bayer_dashboard_${new Date().toISOString().slice(0,10)}.xlsx`);
+
+  XLSX.writeFile(wb, `bayer_productividad_${new Date().toISOString().slice(0,10)}.xlsx`);
 }
 
 // ══════════════════════════════════════════════
