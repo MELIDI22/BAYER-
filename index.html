@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BAYER · ANALISIS DE VISITAS </title>
+<title>BAYER · Dashboard Farmacias 2026</title>
 
 <!-- Librerías externas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -823,14 +823,21 @@ body.light-mode .data-table th { background: #dce4ed; }
 
 <!-- ════════════════ LOADING ════════════════ -->
 <div class="loading-overlay" id="loadingOverlay">
-  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="90" height="90" style="margin-bottom:18px;filter:drop-shadow(0 4px 20px rgba(0,87,168,0.6));">
-    <circle cx="50" cy="50" r="50" fill="#0057A8"/>
-    <rect x="43" y="10" width="14" height="80" fill="white"/>
-    <rect x="10" y="43" width="80" height="14" fill="white"/>
-    <circle cx="50" cy="50" r="18" fill="#0057A8"/>
-    <text x="50" y="55" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="11" fill="white" letter-spacing="1">BAYER</text>
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100" height="100" style="margin-bottom:20px;filter:drop-shadow(0 4px 20px rgba(0,0,0,0.5));">
+    <circle cx="100" cy="100" r="100" fill="#1a2332"/>
+    <path d="M100,8 A92,92 0 0,0 8,100" stroke="#6abf4b" stroke-width="16" fill="none" stroke-linecap="round"/>
+    <path d="M8,100 A92,92 0 1,0 100,8" stroke="#00a3e0" stroke-width="16" fill="none" stroke-linecap="round"/>
+    <text x="100" y="72" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#d0e8f5" letter-spacing="1">B</text>
+    <text x="100" y="100" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#d0e8f5" letter-spacing="1">A</text>
+    <text x="100" y="128" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#d0e8f5" letter-spacing="1">Y</text>
+    <text x="100" y="156" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#d0e8f5" letter-spacing="1">E</text>
+    <text x="44" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#d0e8f5" letter-spacing="1">B</text>
+    <text x="72" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#d0e8f5" letter-spacing="1">A</text>
+    <text x="128" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#d0e8f5" letter-spacing="1">E</text>
+    <text x="156" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#d0e8f5" letter-spacing="1">R</text>
+    <text x="100" y="184" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#d0e8f5" letter-spacing="1">R</text>
   </svg>
-  <div class="loader-logo" style="font-size:32px;letter-spacing:6px;">BAYER</div>
+  <div class="loader-logo" style="font-size:28px;letter-spacing:8px;color:#d0e8f5;">BAYER</div>
   <div class="loader-sub">Cargando análisis de productividad...</div>
   <div class="loader-bar"><div class="loader-fill"></div></div>
   <div style="margin-top:16px;font-size:11px;color:var(--text-dim);text-align:center;max-width:260px;">Si la carga tarda, verificá tu conexión o que el Google Sheet esté publicado.</div>
@@ -839,15 +846,26 @@ body.light-mode .data-table th { background: #dce4ed; }
 <!-- ════════════════ HEADER ════════════════ -->
 <header class="header">
     <div class="header-brand">
-    <div class="logo-box" style="background:none;border-radius:50%;overflow:hidden;width:52px;height:52px;box-shadow:0 0 0 2px rgba(0,87,168,0.5),0 4px 16px rgba(0,87,168,0.4);">
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="52" height="52">
-        <circle cx="50" cy="50" r="50" fill="#0057A8"/>
-        <!-- Cruz Bayer -->
-        <rect x="43" y="10" width="14" height="80" fill="white"/>
-        <rect x="10" y="43" width="80" height="14" fill="white"/>
-        <!-- Texto BAYER en el logo -->
-        <circle cx="50" cy="50" r="18" fill="#0057A8"/>
-        <text x="50" y="55" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="11" fill="white" letter-spacing="1">BAYER</text>
+    <div style="width:54px;height:54px;border-radius:50%;overflow:hidden;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,0.4);">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="54" height="54">
+        <!-- Fondo oscuro -->
+        <circle cx="100" cy="100" r="100" fill="#1a2332"/>
+        <!-- Anillo exterior verde (parte superior izquierda) -->
+        <path d="M100,8 A92,92 0 0,0 8,100" stroke="#6abf4b" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <!-- Anillo exterior azul (parte inferior derecha) -->
+        <path d="M8,100 A92,92 0 1,0 100,8" stroke="#00a3e0" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <!-- Cruz vertical BAYER -->
+        <text x="100" y="72" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">B</text>
+        <text x="100" y="100" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">A</text>
+        <text x="100" y="128" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">Y</text>
+        <text x="100" y="156" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">E</text>
+        <!-- Cruz horizontal -->
+        <text x="44" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">B</text>
+        <text x="72" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">A</text>
+        <text x="128" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">E</text>
+        <text x="156" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">R</text>
+        <!-- R de la vertical -->
+        <text x="100" y="184" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">R</text>
       </svg>
     </div>
     <div class="brand-text">
@@ -1660,13 +1678,24 @@ function populateFilters() {
     if (!r._cadena) return;
     const key = normalizarNombre(r._cadena);
     if (!cadenaMap[key]) {
-      // Capitalizar primera letra de cada palabra
       cadenaMap[key] = r._cadena.trim().replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
     }
-    // Unificar _cadena en el dato fuente
     r._cadena = cadenaMap[key];
   });
-  const cadenas = [...new Set(Object.values(cadenaMap))].sort();
+
+  // Ordenar cadenas por cantidad de visitas desc, "Otros" y "Sin cadena" siempre al final
+  const conteoXCadena = {};
+  rawData.forEach(r => {
+    if (r._cadena) conteoXCadena[r._cadena] = (conteoXCadena[r._cadena] || 0) + 1;
+  });
+  const ULTIMAS = new Set(['otros', 'sin cadena', 'otras farmas']);
+  const cadenas = [...new Set(Object.values(cadenaMap))].sort((a, b) => {
+    const aUlt = ULTIMAS.has(a.toLowerCase());
+    const bUlt = ULTIMAS.has(b.toLowerCase());
+    if (aUlt && !bUlt) return 1;
+    if (!aUlt && bUlt) return -1;
+    return (conteoXCadena[b] || 0) - (conteoXCadena[a] || 0);
+  });
   const selC = document.getElementById('filterCadena');
   selC.innerHTML = '<option value="">Todas</option>' +
     cadenas.map(c => `<option value="${c}">${c}</option>`).join('');
@@ -2349,142 +2378,365 @@ function renderChart(canvasId, type, data, extraOptions = {}) {
 }
 
 // ══════════════════════════════════════════════
-// DESCARGA PDF — una sección por página
+// DESCARGA PDF — reporte formal A4 portrait
 // ══════════════════════════════════════════════
 async function downloadPDF() {
   const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-  const pageW = pdf.internal.pageSize.getWidth();
-  const pageH = pdf.internal.pageSize.getHeight();
+  const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const pageW = pdf.internal.pageSize.getWidth();   // 210
+  const pageH = pdf.internal.pageSize.getHeight();  // 297
+  const margin = 14;
+  const contentW = pageW - margin * 2;
 
-  const addHeader = (title) => {
-    pdf.setFillColor(13,27,46);
-    pdf.rect(0, 0, pageW, pageH, 'F');
-    pdf.setFont('helvetica','bold');
-    pdf.setFontSize(13);
-    pdf.setTextColor(230,237,243);
-    pdf.text('BAYER ANÁLISIS DE PRODUCTIVIDAD · ' + title, pageW/2, 10, { align:'center' });
+  // ── Paleta corporativa ──────────────────────
+  const AZUL_OSCURO  = [15, 32, 60];
+  const AZUL_MEDIO   = [0, 87, 168];
+  const AZUL_CLARO   = [0, 163, 224];
+  const VERDE_BAYER  = [106, 191, 75];
+  const BLANCO       = [255, 255, 255];
+  const GRIS_TEXTO   = [80, 95, 115];
+  const GRIS_LINEA   = [220, 228, 236];
+  const FONDO_FILA   = [240, 246, 252];
+
+  const fechaGen = new Date().toLocaleString('es-PY');
+  const from = document.getElementById('filterFrom').value;
+  const to   = document.getElementById('filterTo').value;
+  const periodoStr = from && to ? `${fmtDate(from)} al ${fmtDate(to)}` : 'Período completo';
+
+  // ── Helper: cabecera de página ───────────────
+  function addPageHeader(title, pageNum) {
+    // Banda superior azul oscuro
+    pdf.setFillColor(...AZUL_OSCURO);
+    pdf.rect(0, 0, pageW, 22, 'F');
+    // Franja verde izquierda
+    pdf.setFillColor(...VERDE_BAYER);
+    pdf.rect(0, 0, 4, 22, 'F');
+    // Franja azul claro
+    pdf.setFillColor(...AZUL_CLARO);
+    pdf.rect(4, 0, 3, 22, 'F');
+
+    // Título
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(11);
+    pdf.setTextColor(...BLANCO);
+    pdf.text('BAYER · ANÁLISIS DE PRODUCTIVIDAD', margin + 2, 9);
+    pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(8);
-    pdf.setTextColor(125,133,144);
-    pdf.text(`${new Date().toLocaleString('es-PY')}  ·  ${filteredData.length} visitas`, pageW/2, 16, { align:'center' });
-  };
+    pdf.setTextColor(180, 210, 230);
+    pdf.text(title, margin + 2, 15.5);
 
-  // Secciones a capturar: [tabName, elementId, label]
-  const sections = [
-    { tab: 'checkin',       el: 'content-checkin',       label: 'Check-in / Check-out' },
-    { tab: 'ranking',       el: 'content-ranking',       label: 'Ranking Sucursales' },
-    { tab: 'productividad', el: 'content-productividad', label: 'Productividad' },
-    { tab: 'detalle',       el: 'content-detalle',       label: 'Detalle de Visitas' },
-  ];
+    // Página y fecha (derecha)
+    pdf.setFontSize(7.5);
+    pdf.setTextColor(160, 190, 210);
+    pdf.text(`Pág. ${pageNum}  ·  ${fechaGen}`, pageW - margin, 15.5, { align: 'right' });
 
-  let first = true;
-  for (const sec of sections) {
-    // Activar tab temporalmente
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    const el = document.getElementById(sec.el);
-    el.classList.add('active');
-
-    // Pequeña espera para render
-    await new Promise(r => setTimeout(r, 300));
-
-    const canvas = await html2canvas(el, {
-      backgroundColor: '#0d1117',
-      scale: 1.2,
-      useCORS: true,
-      logging: false,
-    });
-
-    // Skip páginas vacías (canvas muy pequeño o en blanco)
-    if (canvas.width < 50 || canvas.height < 50) continue;
-
-    if (!first) pdf.addPage();
-    first = false;
-
-    addHeader(sec.label);
-
-    const imgData = canvas.toDataURL('image/jpeg', 0.90);
-    const availH = pageH - 22;
-    const imgH = (canvas.height * (pageW - 10)) / canvas.width;
-    pdf.addImage(imgData, 'JPEG', 5, 20, pageW - 10, Math.min(imgH, availH));
+    // Línea separadora
+    pdf.setDrawColor(...AZUL_CLARO);
+    pdf.setLineWidth(0.3);
+    pdf.line(margin, 25, pageW - margin, 25);
   }
 
-  // Restaurar tab activo
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.getElementById('content-checkin').classList.add('active');
-  document.getElementById('tab-checkin').classList.add('active');
+  // ── Helper: pie de página ────────────────────
+  function addPageFooter() {
+    pdf.setDrawColor(...GRIS_LINEA);
+    pdf.setLineWidth(0.2);
+    pdf.line(margin, pageH - 10, pageW - margin, pageH - 10);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(7);
+    pdf.setTextColor(...GRIS_TEXTO);
+    pdf.text('Bayer AG · Dashboard Farmacias Paraguay 2026', margin, pageH - 5);
+    pdf.text(`Período: ${periodoStr}  ·  ${filteredData.length} visitas`, pageW - margin, pageH - 5, { align: 'right' });
+  }
 
-  pdf.save(`bayer_productividad_${new Date().toISOString().slice(0,10)}.pdf`);
+  // ── Helper: tabla genérica ───────────────────
+  function drawTable(headers, rows, startY, colWidths, pageNum) {
+    let y = startY;
+    const rowH = 7;
+    const headerH = 8;
+    let currentPage = pageNum;
+
+    // Encabezado de tabla
+    pdf.setFillColor(...AZUL_MEDIO);
+    pdf.rect(margin, y, contentW, headerH, 'F');
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(7.5);
+    pdf.setTextColor(...BLANCO);
+    let x = margin;
+    headers.forEach((h, i) => {
+      pdf.text(h, x + 2, y + 5.5);
+      x += colWidths[i];
+    });
+    y += headerH;
+
+    // Filas
+    rows.forEach((row, ri) => {
+      // Nueva página si hace falta
+      if (y + rowH > pageH - 14) {
+        addPageFooter();
+        pdf.addPage();
+        currentPage++;
+        addPageHeader('Check-in / Check-out — continuación', currentPage);
+        y = 30;
+        // Repetir encabezado
+        pdf.setFillColor(...AZUL_MEDIO);
+        pdf.rect(margin, y, contentW, headerH, 'F');
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(7.5);
+        pdf.setTextColor(...BLANCO);
+        x = margin;
+        headers.forEach((h, i) => { pdf.text(h, x + 2, y + 5.5); x += colWidths[i]; });
+        y += headerH;
+      }
+
+      // Fondo alternado
+      if (ri % 2 === 0) {
+        pdf.setFillColor(...FONDO_FILA);
+        pdf.rect(margin, y, contentW, rowH, 'F');
+      }
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(7);
+      pdf.setTextColor(30, 45, 65);
+      x = margin;
+      row.forEach((cell, i) => {
+        const cellStr = String(cell ?? '–').substring(0, 38);
+        pdf.text(cellStr, x + 2, y + 4.8);
+        x += colWidths[i];
+      });
+
+      // Línea inferior fila
+      pdf.setDrawColor(...GRIS_LINEA);
+      pdf.setLineWidth(0.1);
+      pdf.line(margin, y + rowH, margin + contentW, y + rowH);
+      y += rowH;
+    });
+
+    return { y, page: currentPage };
+  }
+
+  // ══ PÁGINA 1: Portada + KPIs ════════════════
+  let pageNum = 1;
+  addPageHeader('Resumen Ejecutivo', pageNum);
+
+  // Bloque portada
+  pdf.setFillColor(...AZUL_OSCURO);
+  pdf.roundedRect(margin, 28, contentW, 38, 3, 3, 'F');
+
+  pdf.setFont('helvetica', 'bold');
+  pdf.setFontSize(18);
+  pdf.setTextColor(...BLANCO);
+  pdf.text('REPORTE DE PRODUCTIVIDAD', pageW / 2, 43, { align: 'center' });
+  pdf.setFont('helvetica', 'normal');
+  pdf.setFontSize(10);
+  pdf.setTextColor(...AZUL_CLARO);
+  pdf.text('Farmacias Paraguay · Análisis de Visitas y Check-in/Check-out', pageW / 2, 51, { align: 'center' });
+  pdf.setFontSize(8.5);
+  pdf.setTextColor(180, 210, 230);
+  pdf.text(`Período analizado: ${periodoStr}`, pageW / 2, 59, { align: 'center' });
+
+  // KPI cards (2 filas × 3 cols)
+  const promotores = [...new Set(filteredData.map(r => r._promotor).filter(Boolean))];
+  const pdvsU = [...new Set(filteredData.map(r => r._pdv).filter(Boolean))].length;
+  const durs = filteredData.map(r => r._duracion).filter(v => v > 0);
+  const promDurPDF = durs.length ? Math.round(durs.reduce((a,b)=>a+b,0)/durs.length) : 0;
+  const dias = [...new Set(filteredData.map(r => r._fecha).filter(Boolean))].length;
+
+  const kpis = [
+    { label: 'Total Visitas', val: filteredData.length, color: AZUL_CLARO },
+    { label: 'Días Activos', val: dias, color: VERDE_BAYER },
+    { label: 'PDVs Únicos', val: pdvsU, color: [255, 180, 0] },
+    { label: 'Prom. Min. PDV', val: promDurPDF + ' min', color: [239, 71, 111] },
+    ...promotores.slice(0, 2).map((p, i) => ({
+      label: 'Visitas ' + p.split(' ')[0],
+      val: filteredData.filter(r => r._promotor === p).length,
+      color: i === 0 ? AZUL_MEDIO : [6, 214, 160],
+    })),
+  ];
+
+  const kpiW = contentW / 3;
+  const kpiH = 24;
+  let ky = 72;
+  kpis.forEach((k, i) => {
+    const kx = margin + (i % 3) * kpiW;
+    if (i === 3) ky += kpiH + 4;
+    pdf.setFillColor(245, 249, 253);
+    pdf.roundedRect(kx + 1, ky, kpiW - 2, kpiH, 2, 2, 'F');
+    pdf.setFillColor(...k.color);
+    pdf.rect(kx + 1, ky, 3, kpiH, 'F');
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(16);
+    pdf.setTextColor(15, 32, 60);
+    pdf.text(String(k.val), kx + 8, ky + 13);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(7.5);
+    pdf.setTextColor(...GRIS_TEXTO);
+    pdf.text(k.label, kx + 8, ky + 19.5);
+  });
+
+  // Resumen por promotor
+  let py = ky + kpiH + 12;
+  pdf.setFont('helvetica', 'bold');
+  pdf.setFontSize(9);
+  pdf.setTextColor(...AZUL_OSCURO);
+  pdf.text('RESUMEN POR RELEVADOR', margin, py);
+  pdf.setDrawColor(...AZUL_CLARO);
+  pdf.setLineWidth(0.4);
+  pdf.line(margin, py + 2, margin + 60, py + 2);
+  py += 6;
+
+  const resumenHeaders = ['Relevador', 'Visitas', 'PDVs Únicos', 'Días Activos', 'Prom. Min PDV', '% del Total'];
+  const resumenWidths = [58, 22, 28, 28, 30, 26];
+  const resumenRows = promotores.map(p => {
+    const v = filteredData.filter(r => r._promotor === p);
+    const dr = v.map(r => r._duracion).filter(x => x > 0);
+    const prom = dr.length ? Math.round(dr.reduce((a,b)=>a+b,0)/dr.length) : 0;
+    const pdvUp = [...new Set(v.map(r => r._pdv))].length;
+    const diasP = [...new Set(v.map(r => r._fecha))].length;
+    const pct = Math.round(v.length / (filteredData.length || 1) * 100);
+    return [p, v.length, pdvUp, diasP, prom + ' min', pct + '%'];
+  });
+  const { y: afterResumen } = drawTable(resumenHeaders, resumenRows, py, resumenWidths, pageNum);
+
+  addPageFooter();
+
+  // ══ PÁGINA 2+: Detalle Check-in / Check-out ══
+  pdf.addPage();
+  pageNum++;
+  addPageHeader('Detalle de Visitas · Check-in / Check-out', pageNum);
+
+  const detHeaders = ['Fecha', 'Empleado', 'PDV', 'Cadena', 'Check-in', 'Check-out', 'Tiempo', 'Estado'];
+  const detWidths  = [16, 42, 48, 22, 16, 18, 14, 16];
+  const detRows = filteredData.slice(0, 800).map(r => {
+    let estado = 'Completo';
+    if (r._motivo && !r._checkin) estado = 'Sin visita';
+    else if (!r._checkin) estado = 'Sin marc.';
+    else if (!r._checkout) estado = 'Solo CI';
+    const tiempo = r._tiempoRaw ? r._tiempoRaw.substring(0,5) : (r._duracion ? r._duracion+'m' : '–');
+    return [fmtDate(r._fecha), r._promotor?.split(' ')[0] || '–', truncate(r._pdv,28), r._cadena, r._checkin||'–', r._checkout||'–', tiempo, estado];
+  });
+
+  const { page: lastPage } = drawTable(detHeaders, detRows, 30, detWidths, pageNum);
+  pageNum = lastPage;
+  addPageFooter();
+
+  pdf.save(`bayer_reporte_${new Date().toISOString().slice(0,10)}.pdf`);
 }
 
 // ══════════════════════════════════════════════
-// DESCARGA EXCEL
+// DESCARGA EXCEL — 2 hojas, formato tabla azul
 // ══════════════════════════════════════════════
 function downloadExcel() {
   const wb = XLSX.utils.book_new();
 
-  // ── Hoja 1: Detalle de visitas ─────────────────────────────
-  const visitasData = filteredData.map(r => ({
-    'Empleado':              r._promotor,
-    'Punto de Venta':        r._pdv,
-    'ID PDV':                r._idpdv || '',
-    'Cadena (detectada)':    r._cadena,
-    'Fecha de la Visita':    r._fecha,
-    'Primer Check-in':       r._checkin,
-    'Último Check-out':      r._checkout,
-    'Tiempo en PDV':         r._tiempoRaw || (r._duracion ? r._duracion + ' min' : ''),
-    'Duración (min)':        r._duracion,
-    'Ciudad':                r._ciudad || 'Asunción',
-    'Motivo No Realización': r._motivo || '',
-  }));
-  const ws1 = XLSX.utils.json_to_sheet(visitasData);
-  // Anchos de columna
-  ws1['!cols'] = [
-    {wch:30},{wch:45},{wch:8},{wch:18},{wch:14},
-    {wch:12},{wch:13},{wch:12},{wch:14},{wch:12},{wch:35}
-  ];
-  XLSX.utils.book_append_sheet(wb, ws1, 'Visitas');
+  // ── Colores corporativos (ARGB para XLSX) ──
+  const AZUL_HEADER  = '00153862';  // azul oscuro Bayer
+  const AZUL_SUBH    = '000057A8';  // azul medio
+  const AZUL_FILA    = '00EBF3FB';  // azul muy claro para filas pares
+  const BLANCO       = '00FFFFFF';
+  const TEXTO_HEADER = '00FFFFFF';
+  const TEXTO_NORMAL = '00102030';
 
-  // ── Hoja 2: Resumen por empleado ───────────────────────────
-  const promotores = [...new Set(filteredData.map(r => r._promotor).filter(Boolean))];
-  const resumenData = promotores.map(p => {
-    const v    = filteredData.filter(r => r._promotor === p);
-    const drs  = v.map(r => r._duracion).filter(x => x > 0);
-    const pdvU = [...new Set(v.map(r => r._pdv))].length;
-    const dias = [...new Set(v.map(r => r._fecha))].length;
-    return {
-      'Empleado':          p,
-      'Total Visitas':     v.length,
-      'PDVs Únicos':       pdvU,
-      'Días Activos':      dias,
-      'Prom. Min en PDV':  drs.length ? Math.round(drs.reduce((a,b)=>a+b,0)/drs.length) : 0,
-      'Total Min en PDV':  drs.reduce((a,b)=>a+b,0),
-      '% del Total':       Math.round(v.length / (filteredData.length||1) * 100) + '%',
-    };
-  });
-  const ws2 = XLSX.utils.json_to_sheet(resumenData);
-  ws2['!cols'] = [{wch:32},{wch:14},{wch:12},{wch:13},{wch:16},{wch:15},{wch:12}];
-  XLSX.utils.book_append_sheet(wb, ws2, 'Resumen Empleados');
+  const estiloHeader = {
+    font: { bold: true, color: { rgb: TEXTO_HEADER }, name: 'Calibri', sz: 10 },
+    fill: { fgColor: { rgb: AZUL_HEADER }, patternType: 'solid' },
+    alignment: { horizontal: 'center', vertical: 'center', wrapText: false },
+    border: {
+      bottom: { style: 'medium', color: { rgb: '0000A3E0' } },
+      right:  { style: 'thin',   color: { rgb: '00315B8A' } },
+    },
+  };
 
-  // ── Hoja 3: Top PDVs ───────────────────────────────────────
-  const byPdv = groupBy(filteredData, '_pdv');
-  const topPdvData = Object.entries(byPdv)
-    .filter(([k]) => k)
-    .sort((a,b) => b[1].length - a[1].length)
-    .slice(0, 30)
-    .map(([pdv, rows], i) => {
-      const drs = rows.map(r=>r._duracion).filter(v=>v>0);
-      return {
-        'Rank':           i+1,
-        'Punto de Venta': pdv,
-        'Cadena':         rows[0]?._cadena || '',
-        'ID PDV':         rows[0]?._idpdv || '',
-        'Total Visitas':  rows.length,
-        'Prom. Min':      drs.length ? Math.round(drs.reduce((a,b)=>a+b,0)/drs.length) : 0,
-      };
+  const estiloFilaPar = {
+    font: { name: 'Calibri', sz: 9, color: { rgb: TEXTO_NORMAL } },
+    fill: { fgColor: { rgb: AZUL_FILA }, patternType: 'solid' },
+    alignment: { vertical: 'center' },
+  };
+  const estiloFilaImpar = {
+    font: { name: 'Calibri', sz: 9, color: { rgb: TEXTO_NORMAL } },
+    fill: { fgColor: { rgb: BLANCO }, patternType: 'solid' },
+    alignment: { vertical: 'center' },
+  };
+
+  function aplicarEstilos(ws, headers, dataRows) {
+    // Estilo encabezado fila 1
+    headers.forEach((h, ci) => {
+      const addr = XLSX.utils.encode_cell({ r: 0, c: ci });
+      if (!ws[addr]) ws[addr] = { v: h, t: 's' };
+      ws[addr].s = estiloHeader;
     });
-  const ws3 = XLSX.utils.json_to_sheet(topPdvData);
-  ws3['!cols'] = [{wch:6},{wch:48},{wch:18},{wch:8},{wch:14},{wch:10}];
-  XLSX.utils.book_append_sheet(wb, ws3, 'Top PDVs');
+    // Estilo filas de datos
+    dataRows.forEach((row, ri) => {
+      const estilo = ri % 2 === 0 ? estiloFilaPar : estiloFilaImpar;
+      headers.forEach((h, ci) => {
+        const addr = XLSX.utils.encode_cell({ r: ri + 1, c: ci });
+        if (ws[addr]) ws[addr].s = estilo;
+      });
+    });
+  }
+
+  // ══ HOJA 1: Check-in / Check-out ════════════
+  const visitasHeaders = [
+    'Empleado', 'Punto de Venta', 'ID PDV', 'Cadena',
+    'Fecha', 'Check-in', 'Check-out', 'Tiempo en PDV',
+    'Duración (min)', 'Ciudad', 'Estado', 'Motivo No Realización',
+  ];
+  const visitasRows = filteredData.map(r => {
+    let estado = 'Completo';
+    if (r._motivo && !r._checkin) estado = 'Sin visita';
+    else if (!r._checkin) estado = 'Sin marcación';
+    else if (!r._checkout) estado = 'Solo Check-in';
+    return [
+      r._promotor || '',
+      r._pdv || '',
+      r._idpdv || '',
+      r._cadena || '',
+      r._fecha || '',
+      r._checkin || '',
+      r._checkout || '',
+      r._tiempoRaw || (r._duracion ? r._duracion + ' min' : ''),
+      r._duracion || 0,
+      r._ciudad || 'Asunción',
+      estado,
+      r._motivo || '',
+    ];
+  });
+
+  const ws1 = XLSX.utils.aoa_to_sheet([visitasHeaders, ...visitasRows]);
+  ws1['!cols'] = [
+    {wch:32},{wch:44},{wch:9},{wch:18},{wch:12},
+    {wch:11},{wch:12},{wch:12},{wch:13},{wch:12},{wch:14},{wch:38},
+  ];
+  // Fila fija (freeze primera fila)
+  ws1['!freeze'] = { xSplit: 0, ySplit: 1, topLeftCell: 'A2', activePane: 'bottomLeft' };
+  ws1['!autofilter'] = { ref: `A1:L${visitasRows.length + 1}` };
+  aplicarEstilos(ws1, visitasHeaders, visitasRows);
+  XLSX.utils.book_append_sheet(wb, ws1, 'Check-in Check-out');
+
+  // ══ HOJA 2: Resumen por Empleado ════════════
+  const resumenHeaders = [
+    'Empleado', 'Total Visitas', 'PDVs Únicos',
+    'Días Activos', 'Prom. Min en PDV', 'Total Min en PDV', '% del Total',
+  ];
+  const promotoresList = [...new Set(filteredData.map(r => r._promotor).filter(Boolean))];
+  const resumenRows = promotoresList
+    .map(p => {
+      const v   = filteredData.filter(r => r._promotor === p);
+      const drs = v.map(r => r._duracion).filter(x => x > 0);
+      const pdvU = [...new Set(v.map(r => r._pdv))].length;
+      const diasP = [...new Set(v.map(r => r._fecha))].length;
+      const promMin = drs.length ? Math.round(drs.reduce((a,b)=>a+b,0)/drs.length) : 0;
+      const totalMin = drs.reduce((a,b)=>a+b,0);
+      const pct = Math.round(v.length / (filteredData.length || 1) * 100);
+      return [p, v.length, pdvU, diasP, promMin, totalMin, pct + '%'];
+    })
+    .sort((a, b) => b[1] - a[1]); // ordenar por visitas desc
+
+  const ws2 = XLSX.utils.aoa_to_sheet([resumenHeaders, ...resumenRows]);
+  ws2['!cols'] = [{wch:36},{wch:14},{wch:14},{wch:14},{wch:16},{wch:16},{wch:12}];
+  ws2['!freeze'] = { xSplit: 0, ySplit: 1, topLeftCell: 'A2', activePane: 'bottomLeft' };
+  ws2['!autofilter'] = { ref: `A1:G${resumenRows.length + 1}` };
+  aplicarEstilos(ws2, resumenHeaders, resumenRows);
+  XLSX.utils.book_append_sheet(wb, ws2, 'Resumen por Empleado');
 
   XLSX.writeFile(wb, `bayer_productividad_${new Date().toISOString().slice(0,10)}.xlsx`);
 }
