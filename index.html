@@ -732,8 +732,74 @@ canvas { max-height: 280px; }
 .progress-val { width: 50px; text-align: right; font-family: var(--font-cond); font-size: 16px; font-weight: 700; }
 
 /* ══════════════════════════════════════════════
-   TOOLTIP
+   LIGHT MODE
 ══════════════════════════════════════════════ */
+body.light-mode {
+  --bg-base:      #f0f4f8;
+  --bg-card:      #ffffff;
+  --bg-card2:     #e8edf3;
+  --bg-hover:     #dce4ed;
+  --border:       rgba(0,0,0,0.08);
+  --border-light: rgba(0,0,0,0.15);
+  --text-primary: #1a2332;
+  --text-muted:   #5a6a7e;
+  --text-dim:     #9aaabb;
+}
+body.light-mode .header {
+  background: linear-gradient(135deg, #1a3a6e 0%, #0d2654 50%, #0a1e45 100%);
+}
+body.light-mode .data-table th { background: #dce4ed; }
+
+/* ══════════════════════════════════════════════
+   COMMENT CARDS (motivos)
+══════════════════════════════════════════════ */
+.motivos-section {
+  margin-top: 24px;
+}
+.motivos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+.motivo-card {
+  background: rgba(239,71,111,0.07);
+  border: 1px solid rgba(239,71,111,0.25);
+  border-left: 4px solid var(--bayer-red);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+.motivo-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.motivo-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: white;
+  flex-shrink: 0;
+}
+.motivo-meta { flex: 1; }
+.motivo-meta strong { font-size: 12px; font-weight: 700; display: block; }
+.motivo-meta span { font-size: 11px; color: var(--text-muted); }
+.motivo-text {
+  font-size: 12px;
+  color: var(--text-primary);
+  line-height: 1.5;
+  font-style: italic;
+}
+.motivo-pdv {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  font-weight: 600;
+}
+
 .tooltip { position: relative; }
 .tooltip-text {
   display: none;
@@ -757,26 +823,44 @@ canvas { max-height: 280px; }
 
 <!-- ════════════════ LOADING ════════════════ -->
 <div class="loading-overlay" id="loadingOverlay">
-  <div class="loader-logo">BAYER</div>
-  <div class="loader-sub">Cargando datos en tiempo real</div>
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="90" height="90" style="margin-bottom:18px;filter:drop-shadow(0 4px 20px rgba(0,87,168,0.6));">
+    <circle cx="50" cy="50" r="50" fill="#0057A8"/>
+    <rect x="43" y="10" width="14" height="80" fill="white"/>
+    <rect x="10" y="43" width="80" height="14" fill="white"/>
+    <circle cx="50" cy="50" r="18" fill="#0057A8"/>
+    <text x="50" y="55" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="11" fill="white" letter-spacing="1">BAYER</text>
+  </svg>
+  <div class="loader-logo" style="font-size:32px;letter-spacing:6px;">BAYER</div>
+  <div class="loader-sub">Cargando análisis de productividad...</div>
   <div class="loader-bar"><div class="loader-fill"></div></div>
+  <div style="margin-top:16px;font-size:11px;color:var(--text-dim);text-align:center;max-width:260px;">Si la carga tarda, verificá tu conexión o que el Google Sheet esté publicado.</div>
 </div>
 
 <!-- ════════════════ HEADER ════════════════ -->
 <header class="header">
-  <div class="header-brand">
-    <div class="logo-box">BAY<br>ER</div>
+    <div class="header-brand">
+    <div class="logo-box" style="background:none;border-radius:50%;overflow:hidden;width:52px;height:52px;box-shadow:0 0 0 2px rgba(0,87,168,0.5),0 4px 16px rgba(0,87,168,0.4);">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="52" height="52">
+        <circle cx="50" cy="50" r="50" fill="#0057A8"/>
+        <!-- Cruz Bayer -->
+        <rect x="43" y="10" width="14" height="80" fill="white"/>
+        <rect x="10" y="43" width="80" height="14" fill="white"/>
+        <!-- Texto BAYER en el logo -->
+        <circle cx="50" cy="50" r="18" fill="#0057A8"/>
+        <text x="50" y="55" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="11" fill="white" letter-spacing="1">BAYER</text>
+      </svg>
+    </div>
     <div class="brand-text">
-      <h1>BAYER · Dashboard Farmacias</h1>
-      <p>Seguimiento de Visitas y Ofertas · 2026 v4.1</p>
+      <h1>BAYER ANÁLISIS DE PRODUCTIVIDAD</h1>
+      <p>Seguimiento de Visitas · 2026</p>
     </div>
   </div>
   <div class="header-status">
-    <div class="status-pill live">Google Sheets (tiempo real)</div>
     <div class="last-update">
       <span>⟳</span>
       <span id="lastUpdate">–</span>
     </div>
+    <button class="btn btn-ghost" id="darkModeBtn" onclick="toggleDarkMode()" title="Cambiar tema" style="padding:8px 10px;font-size:16px;min-width:38px;justify-content:center;">🌙</button>
     <button class="btn btn-ghost" onclick="loadData()" title="Refrescar datos">⟳ Refrescar</button>
     <button class="btn btn-green" onclick="downloadPDF()">⬇ PDF</button>
     <button class="btn btn-primary" onclick="downloadExcel()">⬇ Excel</button>
@@ -786,10 +870,14 @@ canvas { max-height: 280px; }
 <!-- ════════════════ TOOLBAR ════════════════ -->
 <div class="toolbar">
   <div class="filter-group">
+    <span class="filter-label">Semana</span>
+    <select class="filter-select" id="filterWeek" onchange="onWeekChange()">
+      <option value="">Período completo</option>
+    </select>
+  </div>
+  <div class="filter-group" id="customDateGroup" style="display:flex;gap:8px;align-items:center;">
     <span class="filter-label">Desde</span>
     <input type="date" class="filter-input" id="filterFrom">
-  </div>
-  <div class="filter-group">
     <span class="filter-label">Hasta</span>
     <input type="date" class="filter-input" id="filterTo">
   </div>
@@ -884,6 +972,17 @@ canvas { max-height: 280px; }
       <div class="card-title" style="font-size:16px;">Promotores Activos</div>
     </div>
     <div class="promoter-grid" id="promoterGrid"></div>
+
+    <!-- Motivos de no realización -->
+    <div class="motivos-section" id="motivosSection" style="display:none;">
+      <div class="card-header" style="margin-bottom:4px;">
+        <div>
+          <div class="card-title" style="font-size:16px;color:var(--bayer-red);">⚠ Motivos de No Realización</div>
+          <div class="card-sub">Registros con justificación sin visita</div>
+        </div>
+      </div>
+      <div class="motivos-grid" id="motivosGrid"></div>
+    </div>
   </div>
 
   <!-- ─── TAB: OFERTAS ─── -->
@@ -891,7 +990,8 @@ canvas { max-height: 280px; }
     <div class="charts-grid">
       <div class="chart-card">
         <div class="card-header">
-          <div><div class="card-title">Ofertas por Cadena</div><div class="card-sub">Distribución de ofertas registradas</div></div>
+          <div><div class="card-title">Ofertas por Cadena</div><div class="card-sub">Registros por cadena farmacéutica</div></div>
+          <span class="card-badge" id="badgeOfertasCadena">–</span>
         </div>
         <canvas id="chartOfertasCadena"></canvas>
       </div>
@@ -902,18 +1002,34 @@ canvas { max-height: 280px; }
         <canvas id="chartOfertasPromotor"></canvas>
       </div>
     </div>
-    <div class="chart-card charts-grid-full" style="margin-bottom:24px;">
-      <div class="card-header">
-        <div><div class="card-title">Tendencia de Ofertas por Día</div><div class="card-sub">Evolución en el período</div></div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="card-header">
+          <div><div class="card-title">Marcas Registradas</div><div class="card-sub">Distribución por marca promocionada</div></div>
+        </div>
+        <canvas id="chartOfertasMarca"></canvas>
       </div>
-      <canvas id="chartOfertasDia" style="max-height:220px;"></canvas>
+      <div class="chart-card">
+        <div class="card-header">
+          <div><div class="card-title">Tendencia de Registros por Día</div><div class="card-sub">Evolución en el período</div></div>
+        </div>
+        <canvas id="chartOfertasDia"></canvas>
+      </div>
     </div>
-    <div class="chart-card">
-      <div class="card-header"><div class="card-title">Detalle de Ofertas</div></div>
-      <div class="data-table-wrap"><table class="data-table" id="tableOfertas">
-        <thead><tr><th>#</th><th>Fecha</th><th>Promotor</th><th>Cadena</th><th>PDV</th><th>Producto</th><th>Oferta</th></tr></thead>
-        <tbody></tbody>
-      </table></div>
+    <div class="chart-card" style="margin-bottom:24px;">
+      <div class="card-header">
+        <div><div class="card-title">Detalle de Ofertas Registradas</div><div class="card-sub" id="totalOfertas">–</div></div>
+        <input type="text" class="filter-input" id="ofertasSearch" placeholder="🔍 Buscar..." oninput="filterTablaOfertas()" style="width:200px;">
+      </div>
+      <div class="data-table-wrap" style="max-height:480px;overflow-y:auto;">
+        <table class="data-table" id="tableOfertas">
+          <thead><tr>
+            <th>#</th><th>Fecha</th><th>Empleado</th><th>Cadena</th><th>PDV</th>
+            <th>Sucursal</th><th>Marca Promoc.</th><th>Atributo</th><th>Valor</th><th>Ciudad</th>
+          </tr></thead>
+          <tbody id="tableOfertasBody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -922,10 +1038,10 @@ canvas { max-height: 280px; }
     <div class="charts-grid">
       <div class="chart-card">
         <div class="card-header">
-          <div><div class="card-title">Top 10 PDVs Más Visitados</div><div class="card-sub">Por cantidad de visitas</div></div>
-          <span class="card-badge">TOP 10</span>
+          <div><div class="card-title">Ranking Sucursales por Visitas</div><div class="card-sub">Mayor a menor, período seleccionado</div></div>
+          <span class="card-badge" id="rankBadge">–</span>
         </div>
-        <div class="rank-list" id="rankList"></div>
+        <div class="rank-list" id="rankList" style="max-height:520px;overflow-y:auto;"></div>
       </div>
       <div class="chart-card">
         <div class="card-header">
@@ -996,27 +1112,27 @@ canvas { max-height: 280px; }
 // CONFIG — Hoja PRODUCTIVIDAD de MATRIZ BAYER
 // ══════════════════════════════════════════════
 const SHEET_CONFIG = {
-  // URL CSV pública de la hoja PRODUCTIVIDAD
-  // Generada en: Archivo > Compartir > Publicar en la web > PRODUCTIVIDAD > CSV
-  csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTsz11gB_eV1oQXGCkRzzSqoFYZJPDi7dkjO4FgUXADtqZYCjTuyHgeIciWQszgqEB_l4iSVF36qc4g/pub?gid=1442986623&single=true&output=csv',
+  // Hoja PRODUCTIVIDAD
+  // Columnas: Empleado | Punto de venta | ID PDV | Fecha de la visita |
+  //   Primer check-in manual | Último check-out manual | Tiempo en PDV |
+  //   Motivo de No realizacion de tareas | Ciudad
+  csvProductividad: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTsz11gB_eV1oQXGCkRzzSqoFYZJPDi7dkjO4FgUXADtqZYCjTuyHgeIciWQszgqEB_l4iSVF36qc4g/pub?gid=1442986623&single=true&output=csv',
 
-  // Columnas reales de la hoja (tal como aparecen en fila 1):
-  // A: Empleado
-  // B: Punto de venta
-  // C: ID PDV
-  // D: Fecha de la visita  (DD/MM/YYYY)
-  // E: Primer check-in manual  (HH:MM)
-  // F: Último check-out manual (HH:MM)
-  // G: Tiempo en PDV  (H:MM:SS)
-  // H: Motivo de No realizacion de tareas
-  // I: Ciudad
+  // Hoja OFERTAS
+  // Columnas: ID de la encuesta | Rótulo de la encuesta | Red | Cadena | PDV |
+  //   ID PDV | División territorial | Ciudad | Regional |
+  //   Fecha y hora de la encuesta | Empleado | Nombre de la sucursal |
+  //   Promociones de las siguientes marcas | Atributo | Valor
+  csvOfertas: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTsz11gB_eV1oQXGCkRzzSqoFYZJPDi7dkjO4FgUXADtqZYCjTuyHgeIciWQszgqEB_l4iSVF36qc4g/pub?gid=746321072&single=true&output=csv',
 };
 
 // ══════════════════════════════════════════════
 // ESTADO GLOBAL
 // ══════════════════════════════════════════════
 let rawData = [];
+let rawOfertas = [];
 let filteredData = [];
+let filteredOfertas = [];
 let chartInstances = {};
 
 // Colores corporativos
@@ -1035,61 +1151,247 @@ const PROMOTOR_COLORS = [
 ];
 
 // ══════════════════════════════════════════════
-// CARGA DE DATOS
+// MODO OSCURO / CLARO
 // ══════════════════════════════════════════════
+function toggleDarkMode() {
+  const body = document.body;
+  body.classList.toggle('light-mode');
+  const btn = document.getElementById('darkModeBtn');
+  const isLight = body.classList.contains('light-mode');
+  btn.textContent = isLight ? '☀️' : '🌙';
+}
+
+// Inicializar según hora del día
+function initDarkMode() {
+  const hour = new Date().getHours();
+  const btn = document.getElementById('darkModeBtn');
+  if (hour >= 6 && hour < 19) {
+    // Es de día → modo claro por defecto
+    document.body.classList.add('light-mode');
+    btn.textContent = '☀️';
+  } else {
+    btn.textContent = '🌙';
+  }
+}
+
+// ══════════════════════════════════════════════
+// SEMANAS DEL MES
+// ══════════════════════════════════════════════
+function buildWeekOptions() {
+  const fechas = rawData.map(r => r._fecha).filter(Boolean).sort();
+  if (!fechas.length) return;
+
+  const sel = document.getElementById('filterWeek');
+  const opts = ['<option value="">Período completo</option>'];
+  const seen = new Set();
+
+  fechas.forEach(f => {
+    const d = new Date(f + 'T00:00:00');
+    const year = d.getFullYear();
+    const month = d.getMonth(); // 0-based
+    const day = d.getDate();
+
+    // Semana del mes: 1-4 (o 5)
+    const weekNum = Math.ceil(day / 7);
+
+    // Primer y último día de esa semana dentro del mes
+    const weekStart = new Date(year, month, (weekNum - 1) * 7 + 1);
+    const weekEnd   = new Date(year, month, weekNum * 7);
+    // No pasar del último día del mes
+    const lastDay   = new Date(year, month + 1, 0);
+    if (weekEnd > lastDay) weekEnd.setTime(lastDay.getTime());
+
+    const key = `${year}-${month}-${weekNum}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+
+    const fmt = d => d.toLocaleDateString('es-PY', { day:'2-digit', month:'short' });
+    const monthName = new Date(year, month, 1).toLocaleDateString('es-PY', { month:'long' });
+    const label = `Semana ${weekNum} de ${monthName.charAt(0).toUpperCase()+monthName.slice(1)} (${fmt(weekStart)} – ${fmt(weekEnd)})`;
+    const val   = `${toISO(weekStart)}|${toISO(weekEnd)}`;
+    opts.push(`<option value="${val}">${label}</option>`);
+  });
+
+  sel.innerHTML = opts.join('');
+}
+
+function toISO(d) {
+  return d.toISOString().substring(0,10);
+}
+
+function onWeekChange() {
+  const val = document.getElementById('filterWeek').value;
+  const grp = document.getElementById('customDateGroup');
+  if (!val) {
+    grp.style.display = 'flex';
+    const fechas = rawData.map(r => r._fecha).filter(Boolean).sort();
+    if (fechas.length) {
+      document.getElementById('filterFrom').value = fechas[0];
+      document.getElementById('filterTo').value   = fechas[fechas.length-1];
+    }
+  } else {
+    const [from, to] = val.split('|');
+    document.getElementById('filterFrom').value = from;
+    document.getElementById('filterTo').value   = to;
+    grp.style.display = 'none';
+  }
+  applyFilters();
+}
+
+// ══════════════════════════════════════════════
+// NORMALIZAR NOMBRE DE CADENA
+// ══════════════════════════════════════════════
+function normalizarNombre(s) {
+  return (s || '').toLowerCase()
+    .replace(/[áàâä]/g,'a').replace(/[éèêë]/g,'e')
+    .replace(/[íìîï]/g,'i').replace(/[óòôö]/g,'o')
+    .replace(/[úùûü]/g,'u').replace(/ñ/g,'n')
+    .replace(/\s+/g,'').replace(/[^a-z0-9]/g,'');
+}
+
+
 async function loadData() {
   document.getElementById('loadingOverlay').classList.remove('hidden');
 
-  // Intentamos 3 métodos en orden hasta que uno funcione
-  const sheetUrl = SHEET_CONFIG.csvUrl + '&t=' + Date.now();
-  const proxies = [
-    // Método 1: directo (funciona en local)
-    sheetUrl,
-    // Método 2: proxy allorigins (evita CORS en GitHub Pages)
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(sheetUrl)}`,
-    // Método 3: proxy corsproxy
-    `https://corsproxy.io/?${encodeURIComponent(sheetUrl)}`,
-  ];
-
-  let loaded = false;
-  for (const url of proxies) {
-    try {
-      const res = await fetch(url);
-      if (!res.ok) continue;
-      const text = await res.text();
-      // Verificar que sea CSV real (no página de error)
-      if (!text.includes(',') && !text.includes(';')) continue;
-      rawData = parseCSV(text);
-      if (rawData.length === 0) continue;
-      populateFilters();
-      applyFilters();
-      document.getElementById('lastUpdate').textContent =
-        new Date().toLocaleTimeString('es-PY', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
-      loaded = true;
-      break;
-    } catch (e) {
-      console.warn('Proxy falló, intentando siguiente...', url, e);
+  // Fetch con fallback de proxies
+  async function fetchCSV(baseUrl) {
+    const url = baseUrl + '&t=' + Date.now();
+    const proxies = [
+      url,
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+      `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    ];
+    for (const u of proxies) {
+      try {
+        const res = await fetch(u);
+        if (!res.ok) continue;
+        const text = await res.text();
+        if (!text.includes(',') && !text.includes(';')) continue;
+        return text;
+      } catch(e) {
+        console.warn('Proxy falló:', u, e);
+      }
     }
+    return null;
   }
 
-  if (!loaded) {
-    // Fallback final: datos demo
-    rawData = generateDemoData();
-    populateFilters();
-    applyFilters();
-    document.getElementById('lastUpdate').textContent = '⚠ Demo (sheet no disponible)';
-    console.warn('Todos los proxies fallaron, usando datos demo.');
+  // Cargar ambas hojas en paralelo
+  const [textProd, textOfertas] = await Promise.all([
+    fetchCSV(SHEET_CONFIG.csvProductividad),
+    fetchCSV(SHEET_CONFIG.csvOfertas),
+  ]);
+
+  // Hoja PRODUCTIVIDAD
+  if (textProd) {
+    const parsed = parseCSVProductividad(textProd);
+    if (parsed.length > 0) rawData = parsed;
   }
+  if (rawData.length === 0) {
+    rawData = generateDemoData();
+    console.warn('PRODUCTIVIDAD: usando datos demo.');
+  }
+
+  // Hoja OFERTAS
+  if (textOfertas) {
+    const parsed = parseCSVOfertas(textOfertas);
+    if (parsed.length > 0) rawOfertas = parsed;
+  }
+
+  populateFilters();
+  applyFilters();
+
+  document.getElementById('lastUpdate').textContent =
+    new Date().toLocaleTimeString('es-PY', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
 
   setTimeout(() => document.getElementById('loadingOverlay').classList.add('hidden'), 600);
 }
 
 // ══════════════════════════════════════════════
-// PARSEO CSV — Mapeo exacto hoja PRODUCTIVIDAD
+// PARSEO CSV — Hoja PRODUCTIVIDAD
 // Columnas: Empleado | Punto de venta | ID PDV |
 //   Fecha de la visita | Primer check-in manual |
 //   Último check-out manual | Tiempo en PDV |
 //   Motivo de No realizacion de tareas | Ciudad
+// ══════════════════════════════════════════════
+function parseCSVProductividad(text) {
+  return parseCSV(text); // usa el parseCSV genérico existente
+}
+
+// ══════════════════════════════════════════════
+// PARSEO CSV — Hoja OFERTAS
+// Columnas: ID de la encuesta | Rótulo de la encuesta | Red | Cadena | PDV |
+//   ID PDV | División territorial | Ciudad | Regional |
+//   Fecha y hora de la encuesta | Empleado | Nombre de la sucursal |
+//   Promociones de las siguientes marcas | Atributo | Valor
+// ══════════════════════════════════════════════
+function parseCSVOfertas(text) {
+  const lines = text.trim().split('\n');
+  if (lines.length < 2) return [];
+  const sep = ',';
+
+  function normalizeHeader(h) {
+    return h.trim().toLowerCase()
+      .replace(/[áàâä]/g,'a').replace(/[éèêë]/g,'e')
+      .replace(/[íìîï]/g,'i').replace(/[óòôö]/g,'o')
+      .replace(/[úùûü]/g,'u').replace(/ñ/g,'n')
+      .replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+  }
+
+  const headers = parseCSVLine(lines[0], sep).map(normalizeHeader);
+  const idx = {};
+  headers.forEach((h, i) => { idx[h] = i; });
+
+  const get = (vals, ...keys) => {
+    for (const k of keys) {
+      if (idx[k] !== undefined && vals[idx[k]] !== undefined)
+        return (vals[idx[k]] || '').trim();
+    }
+    return '';
+  };
+
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const vals = parseCSVLine(lines[i], sep);
+    if (vals.length < 3) continue;
+
+    // Fecha y hora de la encuesta → _fecha (YYYY-MM-DD)
+    const fechaHoraRaw = get(vals,
+      'fecha_y_hora_de_la_encuesta', 'fecha_hora_encuesta', 'fecha', 'date'
+    );
+    // Puede venir como "DD/MM/YYYY HH:MM" o "YYYY-MM-DD HH:MM"
+    const fechaParteRaw = fechaHoraRaw.split(' ')[0];
+    const fechaNorm = normalizeDate(fechaParteRaw);
+    const horaRaw = fechaHoraRaw.includes(' ') ? fechaHoraRaw.split(' ')[1] : '';
+
+    const row = {
+      _tipo:      'oferta',
+      _fecha:     fechaNorm,
+      _hora:      horaRaw,
+      _promotor:  get(vals, 'empleado', 'promotor', 'relevador'),
+      _pdv:       get(vals, 'pdv', 'punto_de_venta', 'local'),
+      _idpdv:     get(vals, 'id_pdv', 'd_pdv', 'idpdv'),
+      _cadena:    get(vals, 'cadena', 'red', 'chain'),
+      _ciudad:    get(vals, 'ciudad', 'city'),
+      _regional:  get(vals, 'regional'),
+      _division:  get(vals, 'division_territorial', 'division'),
+      _sucursal:  get(vals, 'nombre_de_la_sucursal', 'sucursal', 'rotulo_de_la_encuesta'),
+      _rotulo:    get(vals, 'rotulo_de_la_encuesta', 'rotulo'),
+      _marca:     get(vals, 'promociones_de_las_siguientes_marcas', 'promociones', 'marca'),
+      _atributo:  get(vals, 'atributo'),
+      _valor:     get(vals, 'valor'),
+    };
+
+    // Si cadena viene del sheet, usarla; si no, detectar del PDV
+    if (!row._cadena) row._cadena = detectarCadena(row._pdv);
+
+    if (row._promotor || row._pdv) rows.push(row);
+  }
+  return rows;
+}
+
+// ══════════════════════════════════════════════
+// PARSEO CSV — Hoja PRODUCTIVIDAD (mapeo exacto)
 // ══════════════════════════════════════════════
 function parseCSV(text) {
   const lines = text.trim().split('\n');
@@ -1350,18 +1652,33 @@ function populateFilters() {
     document.getElementById('filterFrom').value = fechas[0];
     document.getElementById('filterTo').value = fechas[fechas.length-1];
   }
-  
-  // Cadenas
-  const cadenas = [...new Set(rawData.map(r => r._cadena).filter(Boolean))].sort();
+
+  // Cadenas: normalizar nombres para agrupar variantes del mismo nombre
+  // Mapear nombre normalizado → nombre canónico (el primero encontrado, capitalizado)
+  const cadenaMap = {}; // normKey → canonicalName
+  rawData.forEach(r => {
+    if (!r._cadena) return;
+    const key = normalizarNombre(r._cadena);
+    if (!cadenaMap[key]) {
+      // Capitalizar primera letra de cada palabra
+      cadenaMap[key] = r._cadena.trim().replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+    }
+    // Unificar _cadena en el dato fuente
+    r._cadena = cadenaMap[key];
+  });
+  const cadenas = [...new Set(Object.values(cadenaMap))].sort();
   const selC = document.getElementById('filterCadena');
   selC.innerHTML = '<option value="">Todas</option>' +
     cadenas.map(c => `<option value="${c}">${c}</option>`).join('');
-  
+
   // Promotores
   const promotores = [...new Set(rawData.map(r => r._promotor).filter(Boolean))].sort();
   const selP = document.getElementById('filterPromotor');
   selP.innerHTML = '<option value="">Todos</option>' +
     promotores.map(p => `<option value="${p}">${p}</option>`).join('');
+
+  // Construir semanas
+  buildWeekOptions();
 }
 
 function applyFilters() {
@@ -1374,6 +1691,14 @@ function applyFilters() {
     if (from && r._fecha < from) return false;
     if (to   && r._fecha > to)   return false;
     if (cadena   && r._cadena !== cadena) return false;
+    if (promotor && r._promotor !== promotor) return false;
+    return true;
+  });
+
+  // Filtrar ofertas por el mismo rango de fechas y promotor
+  filteredOfertas = rawOfertas.filter(r => {
+    if (from && r._fecha < from) return false;
+    if (to   && r._fecha > to)   return false;
     if (promotor && r._promotor !== promotor) return false;
     return true;
   });
@@ -1509,6 +1834,38 @@ function renderPromoterCards() {
         </div>
       </div>`;
   }).join('');
+
+  // Motivos de no realización
+  renderMotivos();
+}
+
+// ══════════════════════════════════════════════
+// MOTIVOS DE NO REALIZACIÓN
+// ══════════════════════════════════════════════
+function renderMotivos() {
+  const conMotivo = filteredData.filter(r => r._motivo && r._motivo.trim() !== '');
+  const section = document.getElementById('motivosSection');
+  if (!conMotivo.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+
+  const promotores = [...new Set(filteredData.map(r => r._promotor).filter(Boolean))];
+  document.getElementById('motivosGrid').innerHTML = conMotivo.map(r => {
+    const idx = promotores.indexOf(r._promotor);
+    const color = PROMOTOR_COLORS[idx >= 0 ? idx % PROMOTOR_COLORS.length : 0];
+    const initials = (r._promotor || '?').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    return `
+      <div class="motivo-card">
+        <div class="motivo-card-header">
+          <div class="motivo-avatar" style="background:${color}">${initials}</div>
+          <div class="motivo-meta">
+            <strong>${r._promotor || '–'}</strong>
+            <span>${fmtDate(r._fecha)}</span>
+          </div>
+        </div>
+        <div class="motivo-text">"${r._motivo}"</div>
+        <div class="motivo-pdv">📍 ${r._pdv || '–'}</div>
+      </div>`;
+  }).join('');
 }
 
 // ══════════════════════════════════════════════
@@ -1584,27 +1941,43 @@ function renderChartsCheckin() {
 }
 
 // ══════════════════════════════════════════════
-// CHARTS OFERTAS
+// CHARTS OFERTAS — datos reales de hoja OFERTAS
 // ══════════════════════════════════════════════
+// Valores que indican "sin oferta" en la columna Valor
+const SIN_OFERTA_VALS = new Set([
+  'sin ofertas','sin oferta','ninguna','ninguno','no','n/a','','–','-'
+]);
+
+function tieneOferta(r) {
+  return !SIN_OFERTA_VALS.has((r._valor || '').trim().toLowerCase());
+}
+
 function renderChartsOfertas() {
-  const conOferta = filteredData.filter(r => r._oferta && r._oferta.toLowerCase() !== 'sin oferta');
-  
-  // Por cadena
+  const data      = filteredOfertas;                  // todos los registros (para tabla)
+  const conOferta = filteredOfertas.filter(tieneOferta); // solo los que tienen oferta real (para gráficos)
+
+  const totalEl = document.getElementById('totalOfertas');
+  if (totalEl) totalEl.textContent =
+    `${data.length} registros · ${conOferta.length} con oferta activa`;
+
+  // ── Por cadena (solo con oferta) ───────────
   const byCadena = groupBy(conOferta, '_cadena');
-  const cadenas = Object.keys(byCadena).filter(Boolean);
+  const cadenas = Object.keys(byCadena).filter(Boolean)
+    .sort((a,b) => byCadena[b].length - byCadena[a].length);
+  const badgeC = document.getElementById('badgeOfertasCadena');
+  if (badgeC) badgeC.textContent = cadenas.length + ' cadenas';
   renderChart('chartOfertasCadena', 'bar', {
     labels: cadenas,
     datasets: [{
-      label: 'Ofertas',
+      label: 'Registros con oferta',
       data: cadenas.map(c => byCadena[c].length),
-      backgroundColor: 'rgba(255,209,102,0.8)',
-      borderColor: '#ffd166',
-      borderWidth: 1,
-      borderRadius: 4,
+      backgroundColor: ['rgba(0,87,168,0.8)','rgba(0,180,216,0.8)','rgba(6,214,160,0.8)',
+        'rgba(255,209,102,0.8)','rgba(239,71,111,0.8)','rgba(123,94,167,0.8)'],
+      borderWidth: 0, borderRadius: 4,
     }]
   });
-  
-  // Por promotor
+
+  // ── Por promotor (solo con oferta) ─────────
   const byProm = groupBy(conOferta, '_promotor');
   const proms = Object.keys(byProm).filter(Boolean);
   renderChart('chartOfertasPromotor', 'doughnut', {
@@ -1615,51 +1988,99 @@ function renderChartsOfertas() {
       borderWidth: 0,
     }]
   }, { plugins: { legend: { position: 'right' } } });
-  
-  // Por día
-  const byDay = groupBy(conOferta, '_fecha');
-  const dias = Object.keys(byDay).sort();
+
+  // ── Por marca (solo con oferta, top 10) ────
+  const byMarca = groupBy(conOferta, '_marca');
+  const marcas = Object.keys(byMarca).filter(Boolean)
+    .sort((a,b) => byMarca[b].length - byMarca[a].length)
+    .slice(0, 10);
+  renderChart('chartOfertasMarca', 'bar', {
+    labels: marcas.map(m => truncate(m, 22)),
+    datasets: [{
+      label: 'Registros con oferta',
+      data: marcas.map(m => byMarca[m].length),
+      backgroundColor: 'rgba(255,209,102,0.8)',
+      borderColor: '#ffd166', borderWidth: 1, borderRadius: 4,
+    }]
+  }, { indexAxis: 'y' });
+
+  // ── Tendencia por día (total registros) ────
+  const byDay = groupBy(data, '_fecha');
+  const byDayOfer = groupBy(conOferta, '_fecha');
+  const dias = Object.keys(byDay).filter(Boolean).sort();
   renderChart('chartOfertasDia', 'line', {
     labels: dias.map(d => fmtDate(d)),
-    datasets: [{
-      label: 'Ofertas registradas',
-      data: dias.map(d => byDay[d].length),
-      borderColor: '#ffd166',
-      backgroundColor: 'rgba(255,209,102,0.1)',
-      fill: true,
-      tension: 0.4,
-      pointBackgroundColor: '#ffd166',
-    }]
+    datasets: [
+      {
+        label: 'Total registros',
+        data: dias.map(d => byDay[d]?.length || 0),
+        borderColor: '#7d8590',
+        backgroundColor: 'rgba(125,133,144,0.08)',
+        fill: true, tension: 0.4,
+        pointBackgroundColor: '#7d8590', pointRadius: 3,
+      },
+      {
+        label: 'Con oferta activa',
+        data: dias.map(d => byDayOfer[d]?.length || 0),
+        borderColor: '#ffd166',
+        backgroundColor: 'rgba(255,209,102,0.12)',
+        fill: true, tension: 0.4,
+        pointBackgroundColor: '#ffd166', pointRadius: 3,
+      },
+    ]
   });
-  
-  // Tabla ofertas
-  const tbody = document.querySelector('#tableOfertas tbody');
-  const oferData = conOferta.slice(0,100);
-  tbody.innerHTML = oferData.map((r,i) => `
+
+  // ── Tabla detalle (todos los registros) ────
+  buildTablaOfertas(data);
+}
+
+function buildTablaOfertas(data) {
+  const tbody = document.getElementById('tableOfertasBody');
+  if (!tbody) return;
+  tbody.innerHTML = data.slice(0, 500).map((r, i) => {
+    const hayOferta = tieneOferta(r);
+    const valorBadge = hayOferta
+      ? `<span class="badge badge-green">${r._valor}</span>`
+      : `<span class="badge badge-red" style="opacity:0.6">${r._valor || 'Sin oferta'}</span>`;
+    return `
     <tr>
-      <td>${i+1}</td>
+      <td style="color:var(--text-muted)">${i+1}</td>
       <td>${fmtDate(r._fecha)}</td>
-      <td>${r._promotor}</td>
-      <td>${r._cadena}</td>
-      <td>${r._pdv}</td>
-      <td>${r._producto}</td>
-      <td><span class="badge badge-yellow">${r._oferta}</span></td>
-    </tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:32px">Sin datos de ofertas</td></tr>';
+      <td style="font-weight:600;max-width:160px;overflow:hidden;text-overflow:ellipsis" title="${r._promotor}">${r._promotor || '–'}</td>
+      <td>${r._cadena || '–'}</td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;font-size:12px" title="${r._pdv}">${r._pdv || '–'}</td>
+      <td style="font-size:12px;color:var(--text-muted)">${r._sucursal || '–'}</td>
+      <td><span class="badge badge-blue" style="max-width:140px;overflow:hidden;text-overflow:ellipsis;display:inline-block" title="${r._marca}">${truncate(r._marca,22) || '–'}</span></td>
+      <td style="font-size:12px">${r._atributo || '–'}</td>
+      <td>${valorBadge}</td>
+      <td style="color:var(--text-muted);font-size:12px">${r._ciudad || '–'}</td>
+    </tr>`;
+  }).join('') ||
+    '<tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:32px">Sin datos de ofertas en el período seleccionado</td></tr>';
+}
+
+function filterTablaOfertas() {
+  const q = document.getElementById('ofertasSearch').value.toLowerCase();
+  if (!q) { buildTablaOfertas(filteredOfertas); return; }
+  buildTablaOfertas(filteredOfertas.filter(r =>
+    Object.values(r).some(v => String(v).toLowerCase().includes(q))
+  ));
 }
 
 // ══════════════════════════════════════════════
 // RANKING
 // ══════════════════════════════════════════════
 function renderRanking() {
-  // Top 10 PDVs
+  // Todos los PDVs ordenados de mayor a menor
   const byPdv = groupBy(filteredData, '_pdv');
-  const top10 = Object.entries(byPdv)
+  const allPdvs = Object.entries(byPdv)
     .filter(([k]) => k)
-    .sort((a,b) => b[1].length - a[1].length)
-    .slice(0,10);
-  const maxV = top10[0]?.[1].length || 1;
-  
-  document.getElementById('rankList').innerHTML = top10.map(([pdv, rows], i) => {
+    .sort((a,b) => b[1].length - a[1].length);
+  const maxV = allPdvs[0]?.[1].length || 1;
+
+  document.getElementById('rankBadge').textContent = allPdvs.length + ' sucursales';
+
+  document.getElementById('rankList').innerHTML = allPdvs.map(([pdv, rows], i) => {
     const pct = Math.round((rows.length / maxV) * 100);
     const cadena = rows[0]?._cadena || '';
     return `
@@ -1928,41 +2349,71 @@ function renderChart(canvasId, type, data, extraOptions = {}) {
 }
 
 // ══════════════════════════════════════════════
-// DESCARGA PDF
+// DESCARGA PDF — una sección por página
 // ══════════════════════════════════════════════
 async function downloadPDF() {
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-  
-  // Captura el dashboard
-  const el = document.getElementById('dashContent');
-  const canvas = await html2canvas(el, {
-    backgroundColor: '#0d1117',
-    scale: 1.5,
-    useCORS: true,
-    logging: false,
-  });
-  
-  const imgData = canvas.toDataURL('image/jpeg', 0.92);
   const pageW = pdf.internal.pageSize.getWidth();
   const pageH = pdf.internal.pageSize.getHeight();
-  
-  // Header del PDF
-  pdf.setFillColor(13,17,23);
-  pdf.rect(0, 0, pageW, pageH, 'F');
-  pdf.setFont('helvetica','bold');
-  pdf.setFontSize(18);
-  pdf.setTextColor(230,237,243);
-  pdf.text('BAYER · Dashboard Farmacias 2026', pageW/2, 14, { align: 'center' });
-  pdf.setFontSize(9);
-  pdf.setTextColor(125,133,144);
-  pdf.text(`Generado: ${new Date().toLocaleString('es-PY')}  ·  ${filteredData.length} visitas registradas`, pageW/2, 20, { align: 'center' });
-  
-  // Imagen del dashboard
-  const imgH = (canvas.height * (pageW - 10)) / canvas.width;
-  pdf.addImage(imgData, 'JPEG', 5, 24, pageW - 10, Math.min(imgH, pageH - 30));
-  
-  pdf.save(`bayer_dashboard_${new Date().toISOString().slice(0,10)}.pdf`);
+
+  const addHeader = (title) => {
+    pdf.setFillColor(13,27,46);
+    pdf.rect(0, 0, pageW, pageH, 'F');
+    pdf.setFont('helvetica','bold');
+    pdf.setFontSize(13);
+    pdf.setTextColor(230,237,243);
+    pdf.text('BAYER ANÁLISIS DE PRODUCTIVIDAD · ' + title, pageW/2, 10, { align:'center' });
+    pdf.setFontSize(8);
+    pdf.setTextColor(125,133,144);
+    pdf.text(`${new Date().toLocaleString('es-PY')}  ·  ${filteredData.length} visitas`, pageW/2, 16, { align:'center' });
+  };
+
+  // Secciones a capturar: [tabName, elementId, label]
+  const sections = [
+    { tab: 'checkin',       el: 'content-checkin',       label: 'Check-in / Check-out' },
+    { tab: 'ranking',       el: 'content-ranking',       label: 'Ranking Sucursales' },
+    { tab: 'productividad', el: 'content-productividad', label: 'Productividad' },
+    { tab: 'detalle',       el: 'content-detalle',       label: 'Detalle de Visitas' },
+  ];
+
+  let first = true;
+  for (const sec of sections) {
+    // Activar tab temporalmente
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    const el = document.getElementById(sec.el);
+    el.classList.add('active');
+
+    // Pequeña espera para render
+    await new Promise(r => setTimeout(r, 300));
+
+    const canvas = await html2canvas(el, {
+      backgroundColor: '#0d1117',
+      scale: 1.2,
+      useCORS: true,
+      logging: false,
+    });
+
+    // Skip páginas vacías (canvas muy pequeño o en blanco)
+    if (canvas.width < 50 || canvas.height < 50) continue;
+
+    if (!first) pdf.addPage();
+    first = false;
+
+    addHeader(sec.label);
+
+    const imgData = canvas.toDataURL('image/jpeg', 0.90);
+    const availH = pageH - 22;
+    const imgH = (canvas.height * (pageW - 10)) / canvas.width;
+    pdf.addImage(imgData, 'JPEG', 5, 20, pageW - 10, Math.min(imgH, availH));
+  }
+
+  // Restaurar tab activo
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('content-checkin').classList.add('active');
+  document.getElementById('tab-checkin').classList.add('active');
+
+  pdf.save(`bayer_productividad_${new Date().toISOString().slice(0,10)}.pdf`);
 }
 
 // ══════════════════════════════════════════════
@@ -2077,6 +2528,7 @@ function deepMerge(target, source) {
 // INIT
 // ══════════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', () => {
+  initDarkMode();
   loadData();
   // Auto-refresh cada 5 minutos
   setInterval(loadData, 5 * 60 * 1000);
