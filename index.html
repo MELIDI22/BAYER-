@@ -1038,25 +1038,50 @@ const PROMOTOR_COLORS = [
 // CARGA DE DATOS
 // ══════════════════════════════════════════════
 async function loadData() {
-  try {
-    document.getElementById('loadingOverlay').classList.remove('hidden');
-    const res = await fetch(SHEET_CONFIG.csvUrl + '&t=' + Date.now());
-    const text = await res.text();
-    rawData = parseCSV(text);
-    populateFilters();
-    applyFilters();
-    document.getElementById('lastUpdate').textContent =
-      new Date().toLocaleTimeString('es-PY', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
-  } catch (e) {
-    // Fallback: genera datos demo si no puede leer el sheet
+  document.getElementById('loadingOverlay').classList.remove('hidden');
+
+  // Intentamos 3 métodos en orden hasta que uno funcione
+  const sheetUrl = SHEET_CONFIG.csvUrl + '&t=' + Date.now();
+  const proxies = [
+    // Método 1: directo (funciona en local)
+    sheetUrl,
+    // Método 2: proxy allorigins (evita CORS en GitHub Pages)
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(sheetUrl)}`,
+    // Método 3: proxy corsproxy
+    `https://corsproxy.io/?${encodeURIComponent(sheetUrl)}`,
+  ];
+
+  let loaded = false;
+  for (const url of proxies) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) continue;
+      const text = await res.text();
+      // Verificar que sea CSV real (no página de error)
+      if (!text.includes(',') && !text.includes(';')) continue;
+      rawData = parseCSV(text);
+      if (rawData.length === 0) continue;
+      populateFilters();
+      applyFilters();
+      document.getElementById('lastUpdate').textContent =
+        new Date().toLocaleTimeString('es-PY', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+      loaded = true;
+      break;
+    } catch (e) {
+      console.warn('Proxy falló, intentando siguiente...', url, e);
+    }
+  }
+
+  if (!loaded) {
+    // Fallback final: datos demo
     rawData = generateDemoData();
     populateFilters();
     applyFilters();
-    document.getElementById('lastUpdate').textContent = 'Demo (sin conexión)';
-    console.warn('Sheet no disponible, usando datos demo:', e);
-  } finally {
-    setTimeout(() => document.getElementById('loadingOverlay').classList.add('hidden'), 600);
+    document.getElementById('lastUpdate').textContent = '⚠ Demo (sheet no disponible)';
+    console.warn('Todos los proxies fallaron, usando datos demo.');
   }
+
+  setTimeout(() => document.getElementById('loadingOverlay').classList.add('hidden'), 600);
 }
 
 // ══════════════════════════════════════════════
