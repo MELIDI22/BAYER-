@@ -1664,7 +1664,7 @@ function renderRanking() {
     const cadena = rows[0]?._cadena || '';
     return `
       <div class="rank-item">
-        <div class="rank-num ${i<3?'top''}">${i+1}</div>
+        <div class="rank-num ${i<3?'top':''}">${i+1}</div>
         <div class="rank-info">
           <div class="rank-name">${pdv}</div>
           <div class="rank-detail">${cadena}</div>
