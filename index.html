@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BAYER · ANALISIS DE PRODUCTIVIDAD </title>
+<title>BAYER · Análisis de Productividad</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='100' cy='100' r='100' fill='%231a2332'/%3E%3Cpath d='M100,8 A92,92 0 0,0 8,100' stroke='%236abf4b' stroke-width='18' fill='none' stroke-linecap='round'/%3E%3Cpath d='M8,100 A92,92 0 1,0 100,8' stroke='%2300a3e0' stroke-width='18' fill='none' stroke-linecap='round'/%3E%3Ctext x='100' y='72' text-anchor='middle' font-family='Arial Black,Arial' font-weight='900' font-size='28' fill='white'%3EB%3C/text%3E%3Ctext x='100' y='100' text-anchor='middle' font-family='Arial Black,Arial' font-weight='900' font-size='28' fill='white'%3EA%3C/text%3E%3Ctext x='100' y='128' text-anchor='middle' font-family='Arial Black,Arial' font-weight='900' font-size='28' fill='white'%3EY%3C/text%3E%3Ctext x='100' y='156' text-anchor='middle' font-family='Arial Black,Arial' font-weight='900' font-size='28' fill='white'%3EE%3C/text%3E%3Ctext x='44' y='112' text-anchor='middle' font-family='Arial Black,Arial' font-weight='900' font-size='28' fill='white'%3EB%3C/text%3E%3Ctext x='72' y='112' text-anchor='middle' font-family='Arial Black,Arial' font-weight='900' font-size='28' fill='white'%3EA%3C/text%3E%3Ctext x='128' y='112' text-anchor='middle' font-family='Arial Black,Arial' font-weight='900' font-size='28' fill='white'%3EE%3C/text%3E%3Ctext x='156' y='112' text-anchor='middle' font-family='Arial Black,Arial' font-weight='900' font-size='28' fill='white'%3ER%3C/text%3E%3Ctext x='100' y='184' text-anchor='middle' font-family='Arial Black,Arial' font-weight='900' font-size='28' fill='white'%3ER%3C/text%3E%3C/svg%3E">
 
 <!-- Librerías externas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -749,6 +750,55 @@ body.light-mode .header {
   background: linear-gradient(135deg, #1a3a6e 0%, #0d2654 50%, #0a1e45 100%);
 }
 body.light-mode .data-table th { background: #dce4ed; }
+/* Loading overlay: modo oscuro → letras más claras */
+body:not(.light-mode) .loading-overlay .loader-sub { color: #90b8d8; }
+body:not(.light-mode) .loading-overlay .loader-note { color: #7aaac8; }
+
+/* ══════════════════════════════════════════════
+   WEEK PICKER 2 NIVELES
+══════════════════════════════════════════════ */
+.wp-month-item {
+  border-bottom: 1px solid var(--border);
+}
+.wp-month-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: background 0.15s;
+}
+.wp-month-header:hover { background: var(--bg-hover); }
+.wp-month-header .wp-arrow { font-size: 10px; color: var(--text-muted); transition: transform 0.2s; }
+.wp-month-header.open .wp-arrow { transform: rotate(180deg); }
+.wp-weeks { display: none; background: var(--bg-base); }
+.wp-weeks.open { display: block; }
+.wp-week-item {
+  padding: 8px 20px;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  border-bottom: 1px solid var(--border);
+}
+.wp-week-item:last-child { border-bottom: none; }
+.wp-week-item:hover { background: var(--bg-hover); color: var(--accent); }
+.wp-week-item.selected { color: var(--accent); font-weight: 700; background: rgba(0,180,216,0.06); }
+.wp-reset {
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--bayer-red);
+  cursor: pointer;
+  font-weight: 600;
+  text-align: center;
+  transition: background 0.15s;
+}
+.wp-reset:hover { background: rgba(239,71,111,0.08); }
 
 /* ══════════════════════════════════════════════
    COMMENT CARDS (motivos)
@@ -838,9 +888,9 @@ body.light-mode .data-table th { background: #dce4ed; }
     <text x="100" y="184" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#d0e8f5" letter-spacing="1">R</text>
   </svg>
   <div class="loader-logo" style="font-size:28px;letter-spacing:8px;color:#d0e8f5;">BAYER</div>
-  <div class="loader-sub">Cargando análisis de productividad...</div>
+  <div class="loader-sub" style="color:#4a6080;">Cargando análisis de productividad...</div>
   <div class="loader-bar"><div class="loader-fill"></div></div>
-  <div style="margin-top:16px;font-size:11px;color:var(--text-dim);text-align:center;max-width:280px;line-height:1.6;">Por favor aguarde. Si la carga se extiende, verifique su conexión a internet e intente nuevamente.</div>
+  <div class="loader-note" style="margin-top:16px;font-size:11px;color:#5a7090;text-align:center;max-width:280px;line-height:1.6;">Por favor aguarde. Si la carga se extiende, verifique su conexión a internet e intente nuevamente.</div>
 </div>
 
 <!-- ════════════════ HEADER ════════════════ -->
@@ -855,17 +905,17 @@ body.light-mode .data-table th { background: #dce4ed; }
         <!-- Anillo exterior azul (parte inferior derecha) -->
         <path d="M8,100 A92,92 0 1,0 100,8" stroke="#00a3e0" stroke-width="16" fill="none" stroke-linecap="round"/>
         <!-- Cruz vertical BAYER -->
-        <text x="100" y="72" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">B</text>
-        <text x="100" y="100" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">A</text>
-        <text x="100" y="128" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">Y</text>
-        <text x="100" y="156" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">E</text>
+        <text x="100" y="72" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="white" letter-spacing="1">B</text>
+        <text x="100" y="100" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="white" letter-spacing="1">A</text>
+        <text x="100" y="128" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="white" letter-spacing="1">Y</text>
+        <text x="100" y="156" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="white" letter-spacing="1">E</text>
         <!-- Cruz horizontal -->
-        <text x="44" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">B</text>
-        <text x="72" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">A</text>
-        <text x="128" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">E</text>
-        <text x="156" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">R</text>
+        <text x="44" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="white" letter-spacing="1">B</text>
+        <text x="72" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="white" letter-spacing="1">A</text>
+        <text x="128" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="white" letter-spacing="1">E</text>
+        <text x="156" y="112" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="white" letter-spacing="1">R</text>
         <!-- R de la vertical -->
-        <text x="100" y="184" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="#1a3a5c" letter-spacing="1">R</text>
+        <text x="100" y="184" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="28" fill="white" letter-spacing="1">R</text>
       </svg>
     </div>
     <div class="brand-text">
@@ -887,11 +937,21 @@ body.light-mode .data-table th { background: #dce4ed; }
 
 <!-- ════════════════ TOOLBAR ════════════════ -->
 <div class="toolbar">
-  <div class="filter-group">
+  <div class="filter-group" style="position:relative;">
     <span class="filter-label">Semana</span>
-    <select class="filter-select" id="filterWeek" onchange="onWeekChange()">
-      <option value="">Período completo</option>
-    </select>
+    <div style="position:relative;display:inline-block;">
+      <button class="filter-select" id="weekPickerBtn" onclick="toggleWeekPicker(event)"
+        style="cursor:pointer;min-width:220px;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <span id="weekPickerLabel">Período completo</span>
+        <span style="font-size:10px;opacity:0.6;">▼</span>
+      </button>
+      <!-- Dropdown 2 niveles -->
+      <div id="weekPickerPanel" style="display:none;position:absolute;top:calc(100% + 4px);left:0;z-index:200;
+        background:var(--bg-card2);border:1px solid var(--border-light);border-radius:10px;
+        box-shadow:0 8px 32px rgba(0,0,0,0.35);min-width:260px;overflow:hidden;">
+        <div id="weekPickerMonths"></div>
+      </div>
+    </div>
   </div>
   <div class="filter-group" id="customDateGroup" style="display:flex;gap:8px;align-items:center;">
     <span class="filter-label">Desde</span>
@@ -1193,68 +1253,146 @@ function initDarkMode() {
 }
 
 // ══════════════════════════════════════════════
-// SEMANAS DEL MES
+// WEEK PICKER — 2 niveles: Mes → Semanas
 // ══════════════════════════════════════════════
+let _weekData = []; // [{monthKey, monthLabel, weeks:[{label,from,to}]}]
+let _selectedWeek = null; // {label, from, to} o null
+
 function buildWeekOptions() {
   const fechas = rawData.map(r => r._fecha).filter(Boolean).sort();
   if (!fechas.length) return;
 
-  const sel = document.getElementById('filterWeek');
-  const opts = ['<option value="">Período completo</option>'];
-  const seen = new Set();
+  // Agrupar semanas por mes
+  const monthMap = {}; // "YYYY-M" → {monthLabel, weeks:[]}
+  const seenWeeks = new Set();
 
   fechas.forEach(f => {
     const d = new Date(f + 'T00:00:00');
     const year = d.getFullYear();
-    const month = d.getMonth(); // 0-based
-    const day = d.getDate();
-
-    // Semana del mes: 1-4 (o 5)
+    const month = d.getMonth();
+    const day   = d.getDate();
     const weekNum = Math.ceil(day / 7);
 
-    // Primer y último día de esa semana dentro del mes
     const weekStart = new Date(year, month, (weekNum - 1) * 7 + 1);
     const weekEnd   = new Date(year, month, weekNum * 7);
-    // No pasar del último día del mes
     const lastDay   = new Date(year, month + 1, 0);
     if (weekEnd > lastDay) weekEnd.setTime(lastDay.getTime());
 
-    const key = `${year}-${month}-${weekNum}`;
-    if (seen.has(key)) return;
-    seen.add(key);
+    const monthKey  = `${year}-${month}`;
+    const weekKey   = `${monthKey}-${weekNum}`;
+    if (seenWeeks.has(weekKey)) return;
+    seenWeeks.add(weekKey);
 
-    const fmt = d => d.toLocaleDateString('es-PY', { day:'2-digit', month:'short' });
-    const monthName = new Date(year, month, 1).toLocaleDateString('es-PY', { month:'long' });
-    const label = `Semana ${weekNum} de ${monthName.charAt(0).toUpperCase()+monthName.slice(1)} (${fmt(weekStart)} – ${fmt(weekEnd)})`;
-    const val   = `${toISO(weekStart)}|${toISO(weekEnd)}`;
-    opts.push(`<option value="${val}">${label}</option>`);
+    if (!monthMap[monthKey]) {
+      const mName = new Date(year, month, 1).toLocaleDateString('es-PY', { month:'long', year:'numeric' });
+      monthMap[monthKey] = {
+        monthKey,
+        monthLabel: mName.charAt(0).toUpperCase() + mName.slice(1),
+        weeks: [],
+      };
+    }
+
+    const fmt = dd => dd.toLocaleDateString('es-PY', { day:'2-digit', month:'short' });
+    monthMap[monthKey].weeks.push({
+      label: `Semana ${weekNum}  (${fmt(weekStart)} – ${fmt(weekEnd)})`,
+      from:  toISO(weekStart),
+      to:    toISO(weekEnd),
+    });
   });
 
-  sel.innerHTML = opts.join('');
+  _weekData = Object.values(monthMap);
+  renderWeekPanel();
 }
 
-function toISO(d) {
-  return d.toISOString().substring(0,10);
+function renderWeekPanel() {
+  const panel = document.getElementById('weekPickerMonths');
+  if (!panel) return;
+
+  let html = '<div class="wp-reset" onclick="selectWeek(null)">✕ Período completo</div>';
+
+  _weekData.forEach((m, mi) => {
+    html += `
+      <div class="wp-month-item">
+        <div class="wp-month-header" onclick="toggleMonth(${mi})" id="wp-mh-${mi}">
+          <span>${m.monthLabel}</span>
+          <span class="wp-arrow">▼</span>
+        </div>
+        <div class="wp-weeks" id="wp-mw-${mi}">
+          ${m.weeks.map((w, wi) => `
+            <div class="wp-week-item" id="wp-week-${mi}-${wi}"
+              onclick="selectWeek({label:'${w.label.replace(/'/g,"\\'")}',from:'${w.from}',to:'${w.to}'})">
+              ${w.label}
+            </div>`).join('')}
+        </div>
+      </div>`;
+  });
+
+  panel.innerHTML = html;
 }
 
-function onWeekChange() {
-  const val = document.getElementById('filterWeek').value;
+function toggleMonth(mi) {
+  const hdr  = document.getElementById(`wp-mh-${mi}`);
+  const body = document.getElementById(`wp-mw-${mi}`);
+  const isOpen = body.classList.contains('open');
+  // Cerrar todos
+  document.querySelectorAll('.wp-weeks').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.wp-month-header').forEach(el => el.classList.remove('open'));
+  // Abrir el clickeado si estaba cerrado
+  if (!isOpen) { body.classList.add('open'); hdr.classList.add('open'); }
+}
+
+function selectWeek(week) {
+  _selectedWeek = week;
+  const btn = document.getElementById('weekPickerLabel');
   const grp = document.getElementById('customDateGroup');
-  if (!val) {
+
+  if (!week) {
+    btn.textContent = 'Período completo';
     grp.style.display = 'flex';
     const fechas = rawData.map(r => r._fecha).filter(Boolean).sort();
     if (fechas.length) {
       document.getElementById('filterFrom').value = fechas[0];
       document.getElementById('filterTo').value   = fechas[fechas.length-1];
     }
+    // Quitar selección visual
+    document.querySelectorAll('.wp-week-item').forEach(el => el.classList.remove('selected'));
   } else {
-    const [from, to] = val.split('|');
-    document.getElementById('filterFrom').value = from;
-    document.getElementById('filterTo').value   = to;
+    btn.textContent = week.label.split('(')[0].trim(); // "Semana 1"
+    document.getElementById('filterFrom').value = week.from;
+    document.getElementById('filterTo').value   = week.to;
     grp.style.display = 'none';
+    // Marcar selección visual
+    document.querySelectorAll('.wp-week-item').forEach(el => {
+      el.classList.toggle('selected', el.textContent.includes(week.from) || el.innerHTML.includes(week.from));
+    });
   }
+
+  closeWeekPicker();
   applyFilters();
 }
+
+function toggleWeekPicker(e) {
+  e.stopPropagation();
+  const panel = document.getElementById('weekPickerPanel');
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+}
+
+function closeWeekPicker() {
+  const panel = document.getElementById('weekPickerPanel');
+  if (panel) panel.style.display = 'none';
+}
+
+// Cerrar al click fuera
+document.addEventListener('click', e => {
+  if (!e.target.closest('#weekPickerBtn') && !e.target.closest('#weekPickerPanel')) {
+    closeWeekPicker();
+  }
+});
+
+function onWeekChange() {} // kept for compat — ya no se usa
+
+
 
 // ══════════════════════════════════════════════
 // NORMALIZAR NOMBRE DE CADENA
@@ -2604,15 +2742,19 @@ async function downloadPDF() {
   pageNum++;
   addPageHeader('Detalle de Visitas · Check-in / Check-out', pageNum);
 
-  const detHeaders = ['Fecha', 'Empleado', 'PDV', 'Cadena', 'Check-in', 'Check-out', 'Tiempo', 'Estado'];
-  const detWidths  = [16, 42, 48, 22, 16, 18, 14, 16];
+  const detHeaders = ['Fecha', 'Empleado', 'PDV', 'Check-in', 'Check-out', 'Tiempo', 'Estado', 'Obs.'];
+  const detWidths  = [16, 44, 58, 17, 18, 14, 16, 19];
   const detRows = filteredData.slice(0, 800).map(r => {
+    // Detectar checkout 23:59 = sistema cerró sin salida real
+    const sinSalida = r._checkout && (r._checkout.startsWith('23:59') || r._checkout === '23:59');
     let estado = 'Completo';
     if (r._motivo && !r._checkin) estado = 'Sin visita';
     else if (!r._checkin) estado = 'Sin marc.';
-    else if (!r._checkout) estado = 'Solo CI';
-    const tiempo = r._tiempoRaw ? r._tiempoRaw.substring(0,5) : (r._duracion ? r._duracion+'m' : '–');
-    return [fmtDate(r._fecha), r._promotor?.split(' ')[0] || '–', truncate(r._pdv,28), r._cadena, r._checkin||'–', r._checkout||'–', tiempo, estado];
+    else if (!r._checkout || sinSalida) estado = 'Solo CI';
+    const checkoutDisplay = sinSalida ? '–' : (r._checkout || '–');
+    const tiempo = (!sinSalida && r._tiempoRaw) ? r._tiempoRaw.substring(0,5) : (r._duracion && !sinSalida ? r._duracion+'m' : '–');
+    const obs = sinSalida ? 'Sin salida' : '';
+    return [fmtDate(r._fecha), r._promotor?.split(' ')[0] || '–', truncate(r._pdv, 30), r._checkin||'–', checkoutDisplay, tiempo, estado, obs];
   });
 
   const { page: lastPage } = drawTable(detHeaders, detRows, 30, detWidths, pageNum);
@@ -2681,10 +2823,11 @@ function downloadExcel() {
     'Duración (min)', 'Ciudad', 'Estado', 'Motivo No Realización',
   ];
   const visitasRows = filteredData.map(r => {
+    const sinSalida = r._checkout && (r._checkout.startsWith('23:59') || r._checkout === '23:59');
     let estado = 'Completo';
     if (r._motivo && !r._checkin) estado = 'Sin visita';
     else if (!r._checkin) estado = 'Sin marcación';
-    else if (!r._checkout) estado = 'Solo Check-in';
+    else if (!r._checkout || sinSalida) estado = 'Solo Check-in';
     return [
       r._promotor || '',
       r._pdv || '',
@@ -2692,12 +2835,12 @@ function downloadExcel() {
       r._cadena || '',
       r._fecha || '',
       r._checkin || '',
-      r._checkout || '',
-      r._tiempoRaw || (r._duracion ? r._duracion + ' min' : ''),
-      r._duracion || 0,
+      sinSalida ? '' : (r._checkout || ''),
+      sinSalida ? '' : (r._tiempoRaw || (r._duracion ? r._duracion + ' min' : '')),
+      sinSalida ? 0 : (r._duracion || 0),
       r._ciudad || 'Asunción',
       estado,
-      r._motivo || '',
+      sinSalida ? 'Sin salida registrada' : (r._motivo || ''),
     ];
   });
 
